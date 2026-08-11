@@ -1,0 +1,75 @@
+---
+import { SITE, SERVICES, servicePath, waLink } from "@/config";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-secondary/60">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
+    <div class="flex flex-col gap-3">
+      <p class="font-heading text-lg font-semibold text-primary">{SITE.brand}</p>
+      <p class="max-w-xs text-sm text-muted-foreground">
+        Asesoría de extranjería online para latinos en toda España. Te acompaño en
+        tu trámite de principio a fin, por WhatsApp.
+      </p>
+      <a
+        href={waLink()}
+        target="_blank"
+        rel="noopener"
+        class="text-sm font-semibold text-wa-deep underline-offset-4 hover:underline"
+      >
+        WhatsApp: {SITE.phoneDisplay}
+      </a>
+      <a
+        href={`mailto:${SITE.email}`}
+        class="text-sm text-muted-foreground underline-offset-4 hover:underline"
+      >
+        {SITE.email}
+      </a>
+    </div>
+
+    <nav aria-label="Trámites" class="flex flex-col gap-2">
+      <p class="font-heading text-sm font-semibold tracking-wide text-foreground uppercase">
+        Trámites
+      </p>
+      {
+        SERVICES.map((s) => (
+          <a
+            href={servicePath(s.slug)}
+            class="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          >
+            {s.menuLabel}
+          </a>
+        ))
+      }
+    </nav>
+
+    <nav aria-label="Información legal" class="flex flex-col gap-2">
+      <p class="font-heading text-sm font-semibold tracking-wide text-foreground uppercase">
+        Legal
+      </p>
+      <a
+        href="/aviso-legal/"
+        class="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+      >
+        Aviso legal
+      </a>
+      <a
+        href="/privacidad/"
+        class="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+      >
+        Política de privacidad
+      </a>
+    </nav>
+  </div>
+
+  <div class="border-t border-border">
+    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 sm:px-6">
+      <p class="text-xs text-muted-foreground">
+        © {year} {SITE.brand}. Página informativa: el contenido es orientativo y
+        no sustituye la revisión individual de tu caso. No somos una
+        administración pública.
+      </p>
+    </div>
+  </div>
+</footer>

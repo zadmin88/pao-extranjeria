@@ -1,0 +1,37 @@
+---
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
+  {
+    items.map((item) => (
+      <details class="group px-5 py-4">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-foreground [&::-webkit-details-marker]:hidden">
+          {item.q}
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
+          >
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
+        <p class="pt-3 text-muted-foreground" set:html={item.a} />
+      </details>
+    ))
+  }
+</div>

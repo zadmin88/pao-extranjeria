@@ -1,0 +1,51 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE } from "@/config";
+---
+
+<BaseLayout
+  title={`Aviso legal | ${SITE.brand}`}
+  description={`Aviso legal e información del titular del sitio web ${SITE.brand}.`}
+  noindex
+>
+  <div class="service-body mx-auto max-w-3xl px-4 py-12 sm:px-6">
+    <h1 class="font-heading text-3xl font-bold text-primary sm:text-4xl">Aviso legal</h1>
+
+    <h2>Titular del sitio</h2>
+    <p>
+      Este sitio web es titularidad de <strong>{SITE.name}</strong>
+      <!-- [PLACEHOLDER] Completa con los datos reales -->
+      (NIF/NIE: [PENDIENTE]), con domicilio en [DIRECCIÓN PENDIENTE], España.
+      Contacto: <a href={`mailto:${SITE.email}`}>{SITE.email}</a> · Teléfono: {SITE.phoneDisplay}.
+    </p>
+
+    <h2>Objeto</h2>
+    <p>
+      El sitio ofrece información orientativa sobre trámites de extranjería en
+      España y un medio de contacto para solicitar servicios de asesoramiento y
+      gestión administrativa. El contenido no constituye asesoramiento jurídico
+      individualizado: cada caso requiere una revisión personalizada.
+    </p>
+
+    <h2>Propiedad intelectual</h2>
+    <p>
+      Los contenidos de este sitio (textos, diseño y logotipos) pertenecen a su
+      titular. No está permitida su reproducción con fines comerciales sin
+      autorización.
+    </p>
+
+    <h2>Responsabilidad</h2>
+    <p>
+      La normativa de extranjería cambia con frecuencia. Aunque procuramos
+      mantener la información actualizada, los requisitos definitivos son los que
+      establezca la administración competente en el momento de cada solicitud.
+    </p>
+
+    <h2>Enlaces externos</h2>
+    <p>
+      Este sitio puede enlazar a páginas oficiales (sedes electrónicas,
+      ministerios). No nos hacemos responsables del contenido de sitios de
+      terceros.
+    </p>
+  </div>
+</BaseLayout>

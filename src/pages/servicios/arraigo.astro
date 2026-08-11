@@ -1,0 +1,102 @@
+﻿---
+import ServiceLayout from "@/layouts/ServiceLayout.astro";
+import { SERVICES } from "@/config";
+
+const service = SERVICES.find((s) => s.slug === "arraigo")!;
+
+const faqs = [
+  {
+    q: "¿Cuánto tiempo tengo que llevar en España para pedir un arraigo?",
+    a: "Depende del tipo: para el arraigo sociolaboral y el socioformativo se piden 2 años de permanencia continuada; para el arraigo social, 3 años. El arraigo familiar no exige un tiempo mínimo de permanencia, sino un vínculo familiar concreto.",
+  },
+  {
+    q: "¿Cómo demuestro el tiempo que llevo en España?",
+    a: "Con el empadronamiento como base, reforzado con cualquier documento a tu nombre con fecha: citas médicas, envíos de dinero, matrículas de cursos, abonos de transporte, contratos de alquiler… Cuantas más pruebas repartidas en el tiempo, mejor.",
+  },
+  {
+    q: "¿Puedo trabajar mientras se resuelve mi arraigo?",
+    a: "En el arraigo sociolaboral, sí: desde 2026, una vez admitida a trámite la solicitud puedes empezar a trabajar de forma provisional sin esperar la resolución (Real Decreto 316/2026).",
+  },
+  {
+    q: "¿Qué pasa si me denegaron un arraigo antes?",
+    a: "Una denegación anterior no te impide volver a intentarlo si ahora cumples los requisitos o si el motivo de la denegación se puede corregir. Revisamos la resolución denegatoria y vemos la mejor estrategia.",
+  },
+];
+---
+
+<ServiceLayout
+  service={service}
+  seoTitle="Arraigo social, sociolaboral y familiar 2026: requisitos y trámite"
+  seoDescription="¿Llevas 2 o 3 años en España sin papeles? Con el nuevo reglamento de extranjería puedes regularizarte por arraigo social, sociolaboral, socioformativo o familiar. Te explico requisitos y te acompaño en todo el trámite."
+  heroIntro="Si llevas tiempo viviendo en España sin autorización, el arraigo es el camino más habitual para conseguir tus papeles sin salir del país. El nuevo reglamento de extranjería lo ha hecho más accesible: te explico cuál te corresponde y lo tramitamos juntos."
+  faqs={faqs}
+>
+  <span slot="h1">Arraigo en España: regulariza tu situación sin salir del país</span>
+
+  <h2>Qué es el arraigo</h2>
+  <p>
+    El arraigo es una autorización de residencia por circunstancias excepcionales
+    pensada para personas que ya viven en España de forma irregular pero tienen
+    vínculos reales con el país: tiempo de permanencia, trabajo, formación o
+    familia. Con el nuevo Reglamento de Extranjería (Real Decreto 1155/2024, en
+    vigor desde el 20 de mayo de 2025), los arraigos cambiaron bastante — en
+    general, para mejor.
+  </p>
+
+  <h2>Tipos de arraigo y sus requisitos</h2>
+
+  <h3>Arraigo sociolaboral (2 años)</h3>
+  <p>
+    Es hoy la vía más demandada. Necesitas acreditar 2 años de permanencia
+    continuada en España y contar con uno o varios contratos de trabajo que
+    sumen al menos 20 horas semanales. No hace falta informe de integración
+    social. Además, desde abril de 2026 puedes trabajar de forma provisional
+    desde que tu solicitud es admitida a trámite, sin esperar a la resolución.
+  </p>
+
+  <h3>Arraigo social (3 años)</h3>
+  <p>
+    Requiere 3 años de permanencia continuada. En lugar de contrato, puedes
+    acreditar medios económicos propios o de familiares, junto con un informe de
+    integración social de tu comunidad autónoma o ayuntamiento. Es la opción
+    típica si aún no tienes oferta de trabajo.
+  </p>
+
+  <h3>Arraigo socioformativo (2 años)</h3>
+  <p>
+    Para quienes llevan 2 años en España y se comprometen a realizar una
+    formación reglada u oficial para el empleo. Al terminar la formación puedes
+    modificar tu autorización para trabajar.
+  </p>
+
+  <h3>Arraigo familiar</h3>
+  <p>
+    Pensado, entre otros casos, para padres y madres de menores de nacionalidad
+    española y para familiares de ciudadanos españoles que no encajan en el
+    régimen comunitario. No exige un tiempo mínimo de permanencia previa.
+  </p>
+
+  <h2>Requisitos comunes</h2>
+  <ul>
+    <li>Pasaporte vigente (o título de viaje válido).</li>
+    <li>Carecer de antecedentes penales en España y en tus países de residencia de los últimos años.</li>
+    <li>No tener prohibida la entrada en España ni en el espacio Schengen.</li>
+    <li>Pruebas de permanencia continuada: empadronamiento y documentos con fecha a tu nombre.</li>
+  </ul>
+
+  <div class="aviso">
+    <p>
+      Cada expediente de arraigo es distinto y las oficinas de extranjería valoran
+      las pruebas caso por caso. Esta información es orientativa: escríbeme y
+      revisamos tu situación concreta antes de presentar nada.
+    </p>
+  </div>
+
+  <h2>Cómo te ayudo con tu arraigo</h2>
+  <ul>
+    <li>Analizo tu caso y te digo qué tipo de arraigo te conviene y si ya cumples los requisitos.</li>
+    <li>Te doy la lista exacta de documentos y reviso cada uno antes de presentarlo.</li>
+    <li>Preparo el expediente completo y lo presento telemáticamente.</li>
+    <li>Sigo el estado de la solicitud y respondo a cualquier requerimiento de extranjería.</li>
+  </ul>
+</ServiceLayout>

@@ -1,0 +1,84 @@
+﻿---
+import ServiceLayout from "@/layouts/ServiceLayout.astro";
+import { SERVICES } from "@/config";
+
+const service = SERVICES.find((s) => s.slug === "renovaciones")!;
+
+const faqs = [
+  {
+    q: "¿Cuándo tengo que renovar mi residencia?",
+    a: "Puedes presentar la renovación durante los 60 días naturales anteriores a la caducidad de tu tarjeta. Si se te pasa la fecha, todavía tienes 90 días naturales después de la caducidad, aunque puede conllevar sanción. Lo ideal es no apurar.",
+  },
+  {
+    q: "¿Puedo seguir trabajando mientras se resuelve la renovación?",
+    a: "Sí. Presentada la solicitud en plazo, tu autorización se entiende prorrogada hasta que haya resolución. Guarda el justificante de presentación: es tu prueba de que estás en trámite.",
+  },
+  {
+    q: "¿Por cuánto tiempo se renueva la residencia?",
+    a: "Con el nuevo reglamento, la mayoría de renovaciones se conceden por 4 años, y en varios supuestos ya no se distingue entre segunda renovación y larga duración como antes. Al renovar revisamos también si ya puedes pedir la residencia de larga duración.",
+  },
+  {
+    q: "¿Qué pasa si estuve un tiempo sin trabajar?",
+    a: "No siempre es un problema: se valoran las cotizaciones acumuladas, prestaciones recibidas, informes sociales y otras circunstancias. Hay más flexibilidad de la que la gente cree, pero hay que argumentarlo bien en el expediente.",
+  },
+];
+---
+
+<ServiceLayout
+  service={service}
+  seoTitle="Renovación de residencia y trabajo en España: plazos y requisitos"
+  seoDescription="Renueva tu autorización de residencia y trabajo sin poner en riesgo tus papeles: plazos (60 días antes, 90 después), documentación y renovaciones de 4 años con el nuevo reglamento. Te acompaño por WhatsApp."
+  heroIntro="Una renovación presentada tarde o con documentos mal preparados puede costarte la residencia que tanto te costó conseguir. Yo me encargo de que llegue a tiempo, completa y bien argumentada."
+  faqs={faqs}
+>
+  <span slot="h1">Renovación de residencia y trabajo, a tiempo y sin sustos</span>
+
+  <h2>Por qué la renovación importa tanto</h2>
+  <p>
+    Conseguir la primera tarjeta es solo el principio: mantenerla depende de
+    renovar en plazo y de demostrar que sigues cumpliendo los requisitos. La
+    buena noticia es que el nuevo Reglamento de Extranjería (Real Decreto
+    1155/2024) ha simplificado las renovaciones y ha ampliado su duración: la
+    mayoría se conceden ahora por 4 años.
+  </p>
+
+  <h2>Plazos que no puedes dejar pasar</h2>
+  <ul>
+    <li>Desde 60 días naturales antes de que caduque tu tarjeta ya puedes presentar la renovación.</li>
+    <li>Hasta 90 días naturales después de la caducidad todavía se admite, aunque puede acarrear sanción.</li>
+    <li>Mientras se resuelve, tu autorización queda prorrogada automáticamente si presentaste en plazo.</li>
+  </ul>
+
+  <h2>Renovaciones con las que te ayudo</h2>
+  <ul>
+    <li>Residencia y trabajo por cuenta ajena y por cuenta propia.</li>
+    <li>Residencia obtenida por arraigo (el paso siguiente tras tu primera tarjeta).</li>
+    <li>Residencia por reagrupación familiar, la tuya o la de tus familiares.</li>
+    <li>Residencia no lucrativa y de estudiantes (prórrogas de estancia).</li>
+    <li>Paso a residencia de larga duración cuando cumples 5 años legales.</li>
+  </ul>
+
+  <h2>Qué suele pedir extranjería</h2>
+  <ul>
+    <li>Solicitud en modelo oficial y tasas pagadas.</li>
+    <li>Pasaporte completo vigente y tarjeta que renuevas.</li>
+    <li>Vida laboral, contrato o nóminas (en autorizaciones de trabajo).</li>
+    <li>Empadronamiento actualizado y, según el caso, escolarización de los hijos menores.</li>
+  </ul>
+
+  <div class="aviso">
+    <p>
+      Cada renovación tiene matices según tu tipo de autorización y tu situación
+      laboral. Escríbeme con la fecha de caducidad de tu tarjeta y te digo hoy
+      mismo qué necesitas y cuándo conviene presentar.
+    </p>
+  </div>
+
+  <h2>Cómo trabajo tu renovación</h2>
+  <ul>
+    <li>Calendario claro: te aviso con antelación de cada fecha límite.</li>
+    <li>Reviso tu vida laboral y tus documentos para detectar problemas antes que extranjería.</li>
+    <li>Presento la solicitud telemáticamente y sigo el expediente hasta la resolución.</li>
+    <li>Si hay requerimiento o denegación, preparo la respuesta o el recurso.</li>
+  </ul>
+</ServiceLayout>

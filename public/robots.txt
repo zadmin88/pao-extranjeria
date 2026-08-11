@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://extranjeria-con-paola.vercel.app/sitemap-index.xml

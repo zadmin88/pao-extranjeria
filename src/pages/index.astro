@@ -1,0 +1,233 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import WhatsAppButton from "@/components/WhatsAppButton.astro";
+import ServiceCard from "@/components/ServiceCard.astro";
+import CtaSection from "@/components/CtaSection.astro";
+import Faq from "@/components/Faq.astro";
+import { SITE, SERVICES, servicePath } from "@/config";
+
+const seoTitle = `Asesoría de Extranjería Online para Latinos en España | ${SITE.brand}`;
+const seoDescription =
+  "Asesoría de extranjería online en toda España: arraigo social y sociolaboral, renovaciones, residencia inicial, reagrupación familiar y modificaciones. Escríbeme por WhatsApp y te digo qué necesitas.";
+
+const steps = [
+  {
+    title: "Me escribes por WhatsApp",
+    text: "Me cuentas tu situación con tus palabras: cuánto llevas en España, si trabajas, qué papeles tienes. Sin formularios ni citas previas.",
+  },
+  {
+    title: "Revisamos tu caso juntos",
+    text: "Te digo qué trámite encaja con tu situación, qué documentos necesitas reunir y cuánto cuesta. Todo claro antes de empezar.",
+  },
+  {
+    title: "Preparamos y presentamos tu expediente",
+    text: "Reviso cada documento, armo el expediente completo y lo presentamos. Te aviso de cada avance hasta la resolución.",
+  },
+];
+
+const faqs = [
+  {
+    q: "¿Cuánto cuesta la asesoría?",
+    a: "La primera consulta por WhatsApp es para entender tu caso y decirte qué necesitas. Antes de empezar cualquier trámite te doy el precio cerrado, sin sorpresas.",
+  },
+  {
+    q: "¿Atiendes solo en una ciudad?",
+    a: "No: trabajo 100% online con personas en toda España. Los trámites de extranjería se presentan de forma telemática, así que da igual si estás en Madrid, Barcelona, Valencia o un pueblo pequeño.",
+  },
+  {
+    q: "¿Qué necesito para saber si puedo arreglar mis papeles?",
+    a: "Con tres datos ya puedo orientarte: cuánto tiempo llevas en España (y cómo puedes demostrarlo), si tienes pasaporte vigente y si tienes oferta de trabajo o ingresos. Escríbeme y lo vemos en unos minutos.",
+  },
+  {
+    q: "¿Cuánto tarda un trámite de extranjería?",
+    a: "Depende del trámite y de la oficina de extranjería de tu provincia. Como referencia, la administración tiene hasta 3 meses para resolver la mayoría de solicitudes. Te voy informando del estado en todo momento.",
+  },
+  {
+    q: "¿Trabajas con el nuevo reglamento de extranjería?",
+    a: "Sí. El nuevo Reglamento de Extranjería (Real Decreto 1155/2024, en vigor desde mayo de 2025) cambió los arraigos, las renovaciones y la reagrupación. Trabajo con la normativa actualizada, que en muchos casos te favorece.",
+  },
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: SITE.brand,
+    description: SITE.tagline,
+    url: SITE.url,
+    telephone: SITE.phoneDisplay,
+    email: SITE.email,
+    areaServed: { "@type": "Country", name: "España" },
+    knowsLanguage: "es",
+    founder: { "@type": "Person", name: SITE.name },
+    makesOffer: SERVICES.map((s) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: s.title,
+        url: new URL(servicePath(s.slug), SITE.url).href,
+      },
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={seoTitle} description={seoDescription} jsonLd={jsonLd}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-border">
+    <div class="mx-auto max-w-6xl px-4 pt-16 pb-14 sm:px-6 md:pt-24 md:pb-20">
+      <p class="text-sm font-semibold tracking-widest text-saffron-deep uppercase">
+        Asesoría de extranjería · Online · Toda España
+      </p>
+      <h1
+        class="mt-4 max-w-3xl font-heading text-4xl leading-tight font-bold text-primary sm:text-5xl md:text-6xl"
+      >
+        Pon tus papeles en regla, con alguien que te habla claro
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+        Soy {SITE.name} y ayudo a latinos en España con sus trámites de
+        extranjería: arraigos, renovaciones, residencia inicial, reagrupación
+        familiar y modificaciones. Me escribes por WhatsApp, te digo qué
+        necesitas y te acompaño hasta la resolución.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <WhatsAppButton size="lg" label="Cuéntame tu caso por WhatsApp" />
+        <a
+          href="#servicios"
+          class="inline-flex h-13 items-center rounded-full border border-primary/30 px-6 font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        >
+          Ver trámites
+        </a>
+      </div>
+      <ul class="mt-10 flex flex-wrap gap-x-8 gap-y-2 text-sm text-muted-foreground">
+        <li class="flex items-center gap-2">
+          <span aria-hidden="true" class="size-1.5 rounded-full bg-saffron"></span>
+          Respuesta en el día
+        </li>
+        <li class="flex items-center gap-2">
+          <span aria-hidden="true" class="size-1.5 rounded-full bg-saffron"></span>
+          Precios claros antes de empezar
+        </li>
+        <li class="flex items-center gap-2">
+          <span aria-hidden="true" class="size-1.5 rounded-full bg-saffron"></span>
+          Normativa actualizada (reglamento 2025)
+        </li>
+      </ul>
+    </div>
+    <!-- Sello: elemento firma -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute -right-4 top-24 hidden select-none lg:block xl:right-24"
+    >
+      <span class="stamp text-2xl font-bold">Resolución · Favorable</span>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section id="servicios" aria-labelledby="servicios-titulo" class="scroll-mt-20">
+    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
+      <h2 id="servicios-titulo" class="font-heading text-3xl font-semibold text-primary sm:text-4xl">
+        ¿Qué trámite necesitas?
+      </h2>
+      <p class="mt-3 max-w-2xl text-muted-foreground">
+        Cada trámite tiene sus propios requisitos y plazos. Entra en el tuyo para
+        ver qué necesitas, o escríbeme directamente si no sabes cuál te corresponde.
+      </p>
+      <div class="mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+        {SERVICES.map((service) => <ServiceCard service={service} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cómo trabajamos -->
+  <section
+    id="como-trabajamos"
+    aria-labelledby="proceso-titulo"
+    class="scroll-mt-20 border-y border-border bg-secondary/50"
+  >
+    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
+      <h2 id="proceso-titulo" class="font-heading text-3xl font-semibold text-primary sm:text-4xl">
+        Cómo trabajamos
+      </h2>
+      <p class="mt-3 max-w-2xl text-muted-foreground">
+        Tres pasos, siempre por WhatsApp. Sin desplazamientos y sin lenguaje de
+        funcionario.
+      </p>
+      <ol class="mt-10 grid gap-8 md:grid-cols-3">
+        {
+          steps.map((step, i) => (
+            <li class="flex flex-col gap-3">
+              <span
+                aria-hidden="true"
+                class="flex size-10 items-center justify-center rounded-full bg-primary font-heading text-lg font-bold text-primary-foreground"
+              >
+                {i + 1}
+              </span>
+              <h3 class="font-heading text-xl font-semibold text-foreground">{step.title}</h3>
+              <p class="leading-relaxed text-muted-foreground">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Quién soy -->
+  <section aria-labelledby="quien-titulo">
+    <div
+      class="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-14 sm:px-6 md:flex-row md:items-center md:py-20"
+    >
+      <div
+        aria-hidden="true"
+        class="flex size-36 shrink-0 -rotate-2 items-center justify-center rounded-2xl border-2 border-primary/20 bg-accent font-heading text-5xl font-bold text-saffron-deep md:size-44"
+      >
+        {SITE.name.charAt(0)}
+      </div>
+      <div class="max-w-2xl">
+        <h2 id="quien-titulo" class="font-heading text-3xl font-semibold text-primary sm:text-4xl">
+          Quién te acompaña
+        </h2>
+        <p class="mt-4 leading-relaxed text-foreground/85">
+          Soy {SITE.name}. Llevo años ayudando a personas migrantes —sobre todo
+          latinas— a entender y resolver sus trámites de extranjería en España.
+          Sé lo que es enfrentarse a la administración sin saber por dónde
+          empezar, y por eso trabajo de la forma más cercana posible: por
+          WhatsApp, con explicaciones claras y sin prometer nada que la ley no
+          permita.
+        </p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">
+          Cada expediente lo reviso personalmente, documento a documento, antes
+          de presentarlo. Mi objetivo es el mismo que el tuyo: tu resolución
+          favorable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section
+    id="preguntas"
+    aria-labelledby="preguntas-titulo"
+    class="scroll-mt-20 border-t border-border bg-secondary/40"
+  >
+    <div class="mx-auto max-w-4xl px-4 py-14 sm:px-6 md:py-20">
+      <h2 id="preguntas-titulo" class="font-heading text-3xl font-semibold text-primary sm:text-4xl">
+        Dudas frecuentes
+      </h2>
+      <div class="mt-8">
+        <Faq items={faqs} />
+      </div>
+    </div>
+  </section>
+
+  <CtaSection />
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+import { SITE } from "@/config";
+import WhatsAppButton from "@/components/WhatsAppButton.astro";
+
+interface Props {
+  message?: string;
+}
+
+const { message } = Astro.props;
+---
+
+<section aria-labelledby="cta-titulo" class="bg-primary">
+  <div
+    class="mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-14 sm:px-6 md:flex-row md:items-center md:justify-between"
+  >
+    <div class="flex max-w-xl flex-col gap-2">
+      <h2 id="cta-titulo" class="font-heading text-3xl font-semibold text-primary-foreground">
+        ¿Hablamos de tu caso?
+      </h2>
+      <p class="text-primary-foreground/80">
+        Cuéntame tu situación por WhatsApp. Te digo qué trámite te conviene, qué
+        documentos necesitas y cuánto cuesta, antes de empezar.
+      </p>
+    </div>
+    <div class="flex flex-col items-start gap-2">
+      <WhatsAppButton size="lg" message={message} />
+      <p class="text-sm text-primary-foreground/70">
+        O guarda mi número: <span class="font-semibold text-primary-foreground">{SITE.phoneDisplay}</span>
+      </p>
+    </div>
+  </div>
+</section>
