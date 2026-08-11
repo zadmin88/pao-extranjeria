@@ -1,22 +1,13 @@
-## Development
+# Agents guide
 
-When starting the dev server, use background mode:
+Lee y sigue **CLAUDE.md** en la raíz del proyecto: contiene la guía completa
+(estructura, reglas de diseño y SEO, comandos y recetas). Resumen mínimo:
 
-```
-astro dev --background
-```
-
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
-
-## Documentation
-
-Full documentation: https://docs.astro.build
-
-Consult these guides before working on related tasks:
-
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+- Contenido en español; la palabra correcta es **extranjería** (con j).
+- Datos de contacto solo en `src/config.ts`; botones de WhatsApp con
+  `src/components/WhatsAppButton.astro`.
+- Colores por tokens del tema (`bg-primary`, `bg-wa`…), nunca colores sueltos.
+- Cero JavaScript en el navegador: nada de `client:*` salvo necesidad real.
+- SEO: title/description únicos por página, un solo h1, no tocar canonical,
+  sitemap ni JSON-LD.
+- Verificación: `npm run build` sin errores antes de terminar.
