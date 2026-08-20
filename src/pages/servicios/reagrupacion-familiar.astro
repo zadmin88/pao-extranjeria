@@ -1,0 +1,84 @@
+﻿---
+import ServiceLayout from "@/layouts/ServiceLayout.astro";
+import { SERVICES } from "@/config";
+
+const service = SERVICES.find((s) => s.slug === "reagrupacion-familiar")!;
+
+const faqs = [
+  {
+    q: "¿Cuánto tiempo debo llevar en España para reagrupar a mi familia?",
+    a: "Como regla general, necesitas haber residido legalmente al menos un año y tener autorización para residir al menos otro año más. Para reagrupar a ascendientes (padres o suegros) se exige residencia de larga duración.",
+  },
+  {
+    q: "¿Cuántos ingresos necesito para reagrupar?",
+    a: "Se calculan en función del IPREM según cuántas personas formen tu unidad familiar tras la reagrupación. Los importes se actualizan cada año; escríbeme y te calculo la cifra exacta que te pedirán con tu composición familiar.",
+  },
+  {
+    q: "¿Puedo reagrupar a mi pareja si no estamos casados?",
+    a: "Sí: la relación de pareja no registrada también da derecho a reagrupar si puedes acreditar una relación estable análoga a la conyugal. El nuevo reglamento facilita la prueba de estas relaciones.",
+  },
+  {
+    q: "¿Mis hijos reagrupados podrán trabajar en España?",
+    a: "Los familiares reagrupados en edad laboral quedan habilitados para trabajar sin trámites adicionales desde la concesión de su autorización. Es una de las mejoras del reglamento vigente.",
+  },
+];
+---
+
+<ServiceLayout
+  service={service}
+  seoTitle="Reagrupación familiar en España: requisitos e ingresos 2026"
+  seoDescription="Trae legalmente a tu cónyuge, hijos o padres a España: requisitos de tiempo de residencia, ingresos (IPREM), informe de vivienda y todo el expediente de reagrupación familiar. Asesoría online por WhatsApp."
+  heroIntro="Vivir con tu familia no debería ser un laberinto. La reagrupación familiar tiene requisitos claros — tiempo de residencia, ingresos y vivienda — y cuando el expediente va bien armado, funciona. Te ayudo a conseguirlo."
+  faqs={faqs}
+>
+  <span slot="h1">Reagrupación familiar: trae a los tuyos a España</span>
+
+  <h2>Qué es la reagrupación familiar</h2>
+  <p>
+    Es la autorización que permite a un residente legal en España traer a sus
+    familiares directos para vivir juntos. La tramitas tú como reagrupante desde
+    España y, una vez aprobada, tu familiar solicita su visado en el consulado y
+    viaja con su residencia aprobada.
+  </p>
+
+  <h2>A quién puedes reagrupar</h2>
+  <ul>
+    <li><strong>Cónyuge o pareja</strong> (registrada o no registrada con relación estable acreditada).</li>
+    <li><strong>Hijos menores de 18 años,</strong> tuyos o de tu pareja, incluidos los adoptados.</li>
+    <li><strong>Hijos mayores con discapacidad</strong> que dependan de ti.</li>
+    <li><strong>Ascendientes</strong> (padres o suegros) a cargo, cuando tienes residencia de larga duración y existen razones que justifiquen su venida.</li>
+  </ul>
+
+  <h2>Requisitos del reagrupante</h2>
+  <ul>
+    <li>Haber residido legalmente en España al menos 1 año y tener autorización para al menos otro año más.</li>
+    <li>Ingresos suficientes según el IPREM, en función del tamaño de la familia resultante.</li>
+    <li>Informe de vivienda adecuada emitido por tu comunidad autónoma o ayuntamiento.</li>
+    <li>Asistencia sanitaria cubierta (seguridad social o seguro).</li>
+  </ul>
+
+  <div class="aviso">
+    <p>
+      El informe de vivienda y el cálculo de ingresos son los dos puntos donde
+      más expedientes se caen. Antes de pedir cita para nada, escríbeme:
+      revisamos si tus números y tu vivienda cumplen, y si no, cómo llegar a
+      cumplirlos.
+    </p>
+  </div>
+
+  <h2>Las etapas del trámite</h2>
+  <ul>
+    <li>Solicitud del informe de vivienda adecuada (el paso que más tarda: conviene empezar por aquí).</li>
+    <li>Presentación de la solicitud de reagrupación en la oficina de extranjería.</li>
+    <li>Con la concesión, tu familiar pide el visado en el consulado en un plazo de dos meses.</li>
+    <li>Entrada en España y solicitud de la TIE con huellas.</li>
+  </ul>
+
+  <h2>Cómo te ayudo</h2>
+  <ul>
+    <li>Calculo contigo los ingresos exigidos para tu composición familiar exacta.</li>
+    <li>Gestiono el calendario completo: informe de vivienda, solicitud, visado y TIE.</li>
+    <li>Preparo la documentación de España y la de tu país (actas, apostillas, traducciones).</li>
+    <li>Sigo el expediente y respondo requerimientos hasta que tu familia está aquí.</li>
+  </ul>
+</ServiceLayout>

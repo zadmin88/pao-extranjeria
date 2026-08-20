@@ -4,7 +4,7 @@ import WhatsAppButton from "@/components/WhatsAppButton.astro";
 import ServiceIcon from "@/components/ServiceIcon.astro";
 import CtaSection from "@/components/CtaSection.astro";
 import Faq from "@/components/Faq.astro";
-import { SITE, SERVICES, TESTIMONIALS, waLink } from "@/config";
+import { SITE, SERVICES, TESTIMONIALS, servicePath } from "@/config";
 
 const cardStyle = {
   bg: "bg-lavender/15",
@@ -58,6 +58,7 @@ const jsonLd = [
       itemOffered: {
         "@type": "Service",
         name: s.title,
+        url: new URL(servicePath(s.slug), SITE.url).href,
       },
     })),
   },
@@ -130,9 +131,7 @@ const jsonLd = [
             const style = cardStyle;
             return (
               <a
-                href={waLink(s.whatsAppMessage)}
-                target="_blank"
-                rel="noopener"
+                href={servicePath(s.slug)}
                 class:list={[
                   "carousel-card group flex w-[85vw] shrink-0 snap-start flex-col rounded-[2rem] p-3 sm:w-[23rem] sm:p-4",
                   style.bg,
@@ -157,7 +156,7 @@ const jsonLd = [
                       style.accent,
                     ]}
                   >
-                    {s.cta}
+                    Ver más
                     <svg
                       aria-hidden="true"
                       viewBox="0 0 24 24"

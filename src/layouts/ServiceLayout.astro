@@ -1,0 +1,151 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import WhatsAppButton from "@/components/WhatsAppButton.astro";
+import CtaSection from "@/components/CtaSection.astro";
+import Faq from "@/components/Faq.astro";
+import type { FaqItem } from "@/components/Faq.astro";
+import { SITE, SERVICES, servicePath } from "@/config";
+import type { Service } from "@/config";
+
+interface Props {
+  service: Service;
+  seoTitle: string;
+  seoDescription: string;
+  heroIntro: string;
+  faqs: FaqItem[];
+}
+
+const { service, seoTitle, seoDescription, heroIntro, faqs } = Astro.props;
+
+const pageUrl = new URL(servicePath(service.slug), SITE.url).href;
+const related = SERVICES.filter((s) => s.slug !== service.slug);
+
+const stripHtml = (html: string) => html.replace(/<[^>]+>/g, "");
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: SITE.url + "/" },
+      { "@type": "ListItem", position: 2, name: service.title, item: pageUrl },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.short,
+    url: pageUrl,
+    serviceType: service.title,
+    areaServed: { "@type": "Country", name: "España" },
+    availableChannel: {
+      "@type": "ServiceChannel",
+      name: "WhatsApp",
+      servicePhone: { "@type": "ContactPoint", telephone: SITE.phoneDisplay },
+    },
+    provider: {
+      "@type": "ProfessionalService",
+      name: SITE.brand,
+      url: SITE.url,
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: stripHtml(f.a) },
+    })),
+  },
+];
+---
+
+<BaseLayout title={seoTitle} description={seoDescription} jsonLd={jsonLd}>
+  <article>
+    <!-- Cabecera editorial sobre blanco: breadcrumb, H1 grande font-medium,
+         intro y CTA de WhatsApp. Mismo ritmo de contenedor que la home. -->
+    <header class="pt-28 pb-12 sm:pt-32 sm:pb-16">
+      <div class="mx-auto max-w-[100rem] px-6 sm:px-10 lg:px-16">
+        <nav aria-label="Ruta de navegación" class="reveal mb-6 text-sm text-muted-foreground">
+          <a href="/" class="underline-offset-4 transition-colors hover:text-primary hover:underline">Inicio</a>
+          <span aria-hidden="true" class="mx-2 text-lavender-deep">/</span>
+          <span class="text-primary">{service.title}</span>
+        </nav>
+        <h1
+          class="reveal max-w-4xl font-heading leading-[1.05] font-medium text-primary"
+          style="font-size: clamp(1.85rem, 5vw, 3.75rem);"
+        >
+          <slot name="h1" />
+        </h1>
+        <p class="reveal mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          {heroIntro}
+        </p>
+        <div class="reveal mt-8 flex flex-wrap items-center gap-4">
+          <WhatsAppButton size="lg" message={service.whatsAppMessage} label="Consulta tu caso por WhatsApp" />
+          <p class="text-sm text-muted-foreground">Respuesta en el día · 100% online</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Cuerpo de prosa larga: columna estrecha para lectura cómoda. La
+         tipografía la aporta .service-body (global.css), ya con tokens de
+         marca. -->
+    <div class="mx-auto max-w-[100rem] px-6 sm:px-10 lg:px-16">
+      <div class="service-body reveal max-w-3xl pb-4">
+        <slot />
+      </div>
+    </div>
+
+    <!-- FAQ: mismo patrón de rejilla que la home (título a la izquierda,
+         preguntas a la derecha). -->
+    <section aria-labelledby="faq-titulo" class="py-20 sm:py-28">
+      <div class="mx-auto max-w-[100rem] px-6 sm:px-10 lg:px-16">
+        <div class="reveal lg:grid lg:grid-cols-12 lg:gap-x-12">
+          <div class="lg:col-span-4">
+            <h2
+              id="faq-titulo"
+              class="font-heading leading-[1.05] font-medium text-primary"
+              style="font-size: clamp(1.85rem, 4.5vw, 3.25rem);"
+            >
+              Preguntas frecuentes
+            </h2>
+          </div>
+          <div class="mt-10 lg:col-span-7 lg:col-start-6 lg:mt-0">
+            <Faq items={faqs} />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Otros trámites: enlaces internos rastreables a las demás páginas. -->
+    <section aria-labelledby="otros-titulo" class="bg-lavender/10 py-20 sm:py-28">
+      <div class="mx-auto max-w-[100rem] px-6 sm:px-10 lg:px-16">
+        <h2
+          id="otros-titulo"
+          class="reveal font-heading leading-[1.05] font-medium text-primary"
+          style="font-size: clamp(1.6rem, 3.5vw, 2.5rem);"
+        >
+          Otros trámites con los que te ayudo
+        </h2>
+        <ul class="reveal mt-7 flex flex-wrap gap-3">
+          {
+            related.map((s) => (
+              <li>
+                <a
+                  href={servicePath(s.slug)}
+                  class="inline-block rounded-full bg-lavender/25 px-5 py-2.5 font-heading text-sm font-semibold text-primary transition-colors hover:bg-lavender/50"
+                >
+                  {s.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+  </article>
+
+  <CtaSection message={service.whatsAppMessage} />
+</BaseLayout>

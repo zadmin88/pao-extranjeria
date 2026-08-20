@@ -49,6 +49,11 @@ export function waLink(message: string = SITE.defaultWhatsAppMessage): string {
   return `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 
+/** Ruta interna de la página de un trámite (con barra final). */
+export function servicePath(slug: string): string {
+  return `/servicios/${slug}/`;
+}
+
 /** Servicios: alimentan las tarjetas de la home y la franja del footer */
 export const SERVICES = [
   {

@@ -1,6 +1,6 @@
 ---
 import logoSource from "@/assets/PO_Logo_5.svg?raw";
-import { SITE } from "@/config";
+import { SITE, SERVICES, servicePath } from "@/config";
 
 const year = new Date().getFullYear();
 
@@ -31,15 +31,37 @@ const logo = logoSource.replace(/#391a3f/g, "#fff");
         <a href="/#paola" class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">Sobre Paola</a>
         <a href="/#preguntas" class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">Preguntas frecuentes</a>
       </nav>
+      <p class="mt-8 mb-3 font-heading text-xs tracking-wide text-paper/40 uppercase">Trámites</p>
+      <nav aria-label="Trámites" class="flex flex-col gap-3">
+        {
+          SERVICES.map((s) => (
+            <a href={servicePath(s.slug)} class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">
+              {s.title}
+            </a>
+          ))
+        }
+      </nav>
     </div>
 
-    <!-- Desktop: logo y nav en una sola fila, patrón ya establecido. -->
-    <div class="hidden items-center justify-between gap-6 sm:flex sm:gap-8">
-      <a href="/" aria-label={`${SITE.name} — inicio`} class="shrink-0 [&>svg]:h-20" set:html={logo} />
-      <nav aria-label="Navegación" class="flex flex-wrap items-center gap-x-8 gap-y-3">
-        <a href="/#tramites" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Trámites</a>
-        <a href="/#paola" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Sobre Paola</a>
-        <a href="/#preguntas" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Preguntas frecuentes</a>
+    <!-- Desktop: logo + nav principal arriba; lista de trámites (enlaces
+         internos para SEO) debajo. -->
+    <div class="hidden sm:block">
+      <div class="flex items-center justify-between gap-6 sm:gap-8">
+        <a href="/" aria-label={`${SITE.name} — inicio`} class="shrink-0 [&>svg]:h-20" set:html={logo} />
+        <nav aria-label="Navegación" class="flex flex-wrap items-center gap-x-8 gap-y-3">
+          <a href="/#tramites" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Trámites</a>
+          <a href="/#paola" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Sobre Paola</a>
+          <a href="/#preguntas" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Preguntas frecuentes</a>
+        </nav>
+      </div>
+      <nav aria-label="Trámites" class="mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t border-paper/12 pt-8">
+        {
+          SERVICES.map((s) => (
+            <a href={servicePath(s.slug)} class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">
+              {s.title}
+            </a>
+          ))
+        }
       </nav>
     </div>
   </div>
