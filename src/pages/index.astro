@@ -1,50 +1,43 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import WhatsAppButton from "@/components/WhatsAppButton.astro";
-import ServiceCard from "@/components/ServiceCard.astro";
+import ServiceIcon from "@/components/ServiceIcon.astro";
 import CtaSection from "@/components/CtaSection.astro";
 import Faq from "@/components/Faq.astro";
-import { SITE, SERVICES, servicePath } from "@/config";
+import { SITE, SERVICES, TESTIMONIALS, waLink } from "@/config";
+
+const cardStyle = {
+  bg: "bg-lavender/15",
+  fg: "text-primary",
+  muted: "text-muted-foreground",
+  icon: "text-primary/55",
+  accent: "text-lavender-deep",
+};
 
 const seoTitle = `Asesoría de Extranjería Online para Latinos en España | ${SITE.brand}`;
 const seoDescription =
   "Asesoría de extranjería online en toda España: arraigo social y sociolaboral, renovaciones, residencia inicial, reagrupación familiar y modificaciones. Escríbeme por WhatsApp y te digo qué necesitas.";
 
-const steps = [
-  {
-    title: "Me escribes por WhatsApp",
-    text: "Me cuentas tu situación con tus palabras: cuánto llevas en España, si trabajas, qué papeles tienes. Sin formularios ni citas previas.",
-  },
-  {
-    title: "Revisamos tu caso juntos",
-    text: "Te digo qué trámite encaja con tu situación, qué documentos necesitas reunir y cuánto cuesta. Todo claro antes de empezar.",
-  },
-  {
-    title: "Preparamos y presentamos tu expediente",
-    text: "Reviso cada documento, armo el expediente completo y lo presentamos. Te aviso de cada avance hasta la resolución.",
-  },
-];
-
 const faqs = [
   {
-    q: "¿Cuánto cuesta la asesoría?",
+    q: "¿Atiendes online?",
+    a: "Sí, 100% online con personas en toda España. Los trámites de extranjería se presentan de forma telemática, así que da igual si estás en Madrid, Barcelona, Valencia o un pueblo pequeño.",
+  },
+  {
+    q: "¿Cuánto cuesta?",
     a: "La primera consulta por WhatsApp es para entender tu caso y decirte qué necesitas. Antes de empezar cualquier trámite te doy el precio cerrado, sin sorpresas.",
   },
   {
-    q: "¿Atiendes solo en una ciudad?",
-    a: "No: trabajo 100% online con personas en toda España. Los trámites de extranjería se presentan de forma telemática, así que da igual si estás en Madrid, Barcelona, Valencia o un pueblo pequeño.",
-  },
-  {
-    q: "¿Qué necesito para saber si puedo arreglar mis papeles?",
+    q: "¿Qué trámite necesito?",
     a: "Con tres datos ya puedo orientarte: cuánto tiempo llevas en España (y cómo puedes demostrarlo), si tienes pasaporte vigente y si tienes oferta de trabajo o ingresos. Escríbeme y lo vemos en unos minutos.",
   },
   {
-    q: "¿Cuánto tarda un trámite de extranjería?",
+    q: "¿Cuánto tarda?",
     a: "Depende del trámite y de la oficina de extranjería de tu provincia. Como referencia, la administración tiene hasta 3 meses para resolver la mayoría de solicitudes. Te voy informando del estado en todo momento.",
   },
   {
-    q: "¿Trabajas con el nuevo reglamento de extranjería?",
-    a: "Sí. El nuevo Reglamento de Extranjería (Real Decreto 1155/2024, en vigor desde mayo de 2025) cambió los arraigos, las renovaciones y la reagrupación. Trabajo con la normativa actualizada, que en muchos casos te favorece.",
+    q: "¿Qué documentación necesito?",
+    a: "Cambia según el trámite. En cuanto me cuentas tu caso te doy la lista exacta de documentos, con formato, apostillas y traducciones incluidas si hacen falta.",
   },
 ];
 
@@ -65,7 +58,6 @@ const jsonLd = [
       itemOffered: {
         "@type": "Service",
         name: s.title,
-        url: new URL(servicePath(s.slug), SITE.url).href,
       },
     })),
   },
@@ -81,150 +73,294 @@ const jsonLd = [
 ];
 ---
 
-<BaseLayout title={seoTitle} description={seoDescription} jsonLd={jsonLd}>
-  <!-- Hero -->
-  <section class="relative overflow-hidden border-b border-border">
-    <div class="mx-auto max-w-6xl px-4 pt-16 pb-14 sm:px-6 md:pt-24 md:pb-20">
-      <p class="text-sm font-semibold tracking-widest text-saffron-deep uppercase">
-        Asesoría de extranjería · Online · Toda España
-      </p>
+<BaseLayout title={seoTitle} description={seoDescription} jsonLd={jsonLd} transparentHeader>
+  <!-- Apertura: hero con foto a pantalla completa, nav integrada -->
+  <section id="hero" class="relative h-[72svh] min-h-[560px] overflow-hidden rounded-b-[2.5rem] sm:h-[85svh] sm:min-h-[640px] sm:rounded-b-[3rem]">
+    <picture>
+      <source media="(min-width: 640px)" srcset="/foto_paola_completa_desk.png" />
+      <img
+        src="/foto_paola_completa_mob.png"
+        alt="Paola Ocampo, asesora de extranjería"
+        width="752"
+        height="1344"
+        loading="eager"
+        fetchpriority="high"
+        class="absolute inset-0 h-full w-full origin-bottom scale-125 object-cover object-[50%_0%] sm:origin-center sm:scale-100 sm:object-[64%_10%]"
+      />
+    </picture>
+    <div class="reveal absolute inset-x-6 inset-y-0 z-10 flex max-w-[19rem] flex-col justify-start pt-28 sm:inset-x-10 sm:max-w-lg sm:justify-center sm:pt-0 lg:inset-x-16">
       <h1
-        class="mt-4 max-w-3xl font-heading text-4xl leading-tight font-bold text-primary sm:text-5xl md:text-6xl"
+        class="font-heading leading-[1.05] font-medium text-primary [text-shadow:0_2px_24px_rgba(255,255,255,0.7)]"
+        style="font-size: clamp(1.75rem, 6vw, 3.75rem);"
       >
-        Pon tus papeles en regla, con alguien que te habla claro
+        Soy <span class="text-lavender-deep">Paola Ocampo</span>, te ayudo con tus trámites de extranjería en España.
       </h1>
-      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-        Soy {SITE.name} y ayudo a latinos en España con sus trámites de
-        extranjería: arraigos, renovaciones, residencia inicial, reagrupación
-        familiar y modificaciones. Me escribes por WhatsApp, te digo qué
-        necesitas y te acompaño hasta la resolución.
-      </p>
-      <div class="mt-8 flex flex-wrap items-center gap-4">
-        <WhatsAppButton size="lg" label="Cuéntame tu caso por WhatsApp" />
-        <a
-          href="#servicios"
-          class="inline-flex h-13 items-center rounded-full border border-primary/30 px-6 font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      <div class="mt-6 flex flex-wrap items-center gap-4">
+        <WhatsAppButton size="lg" label="Escríbeme por WhatsApp" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Trámites: carrusel horizontal de tarjetas -->
+  <!-- El ancla de scroll (id + scroll-mt) vive en el div interior, no en
+       la <section>: si estuviera en la section, el salto por nav
+       aterrizaba antes de su padding-top (py-24/py-32 = hasta 128px), y
+       encima el clearance del header (72px), dejando el título "muy
+       abajo" con un hueco enorme arriba — el cliente lo notó al clickear
+       "Trámites" en desktop. Poniendo el ancla después del padding, el
+       salto cae justo donde empieza el contenido real. -->
+  <section aria-labelledby="tramites-titulo" class="py-24 sm:py-32">
+    <div id="tramites" class="scroll-mt-24 mx-auto max-w-[100rem] px-6 sm:px-10 lg:px-16">
+      <div class="reveal mb-5 sm:mb-7">
+        <h2
+          id="tramites-titulo"
+          class="font-heading leading-[1.05] font-medium text-primary"
+          style="font-size: clamp(1.85rem, 4.5vw, 3.25rem);"
         >
-          Ver trámites
-        </a>
-      </div>
-      <ul class="mt-10 flex flex-wrap gap-x-8 gap-y-2 text-sm text-muted-foreground">
-        <li class="flex items-center gap-2">
-          <span aria-hidden="true" class="size-1.5 rounded-full bg-saffron"></span>
-          Respuesta en el día
-        </li>
-        <li class="flex items-center gap-2">
-          <span aria-hidden="true" class="size-1.5 rounded-full bg-saffron"></span>
-          Precios claros antes de empezar
-        </li>
-        <li class="flex items-center gap-2">
-          <span aria-hidden="true" class="size-1.5 rounded-full bg-saffron"></span>
-          Normativa actualizada (reglamento 2025)
-        </li>
-      </ul>
-    </div>
-    <!-- Sello: elemento firma -->
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute -right-4 top-24 hidden select-none lg:block xl:right-24"
-    >
-      <span class="stamp text-2xl font-bold">Resolución · Favorable</span>
-    </div>
-  </section>
-
-  <!-- Servicios -->
-  <section id="servicios" aria-labelledby="servicios-titulo" class="scroll-mt-20">
-    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
-      <h2 id="servicios-titulo" class="font-heading text-3xl font-semibold text-primary sm:text-4xl">
-        ¿Qué trámite necesitas?
-      </h2>
-      <p class="mt-3 max-w-2xl text-muted-foreground">
-        Cada trámite tiene sus propios requisitos y plazos. Entra en el tuyo para
-        ver qué necesitas, o escríbeme directamente si no sabes cuál te corresponde.
-      </p>
-      <div class="mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-        {SERVICES.map((service) => <ServiceCard service={service} />)}
-      </div>
-    </div>
-  </section>
-
-  <!-- Cómo trabajamos -->
-  <section
-    id="como-trabajamos"
-    aria-labelledby="proceso-titulo"
-    class="scroll-mt-20 border-y border-border bg-secondary/50"
-  >
-    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
-      <h2 id="proceso-titulo" class="font-heading text-3xl font-semibold text-primary sm:text-4xl">
-        Cómo trabajamos
-      </h2>
-      <p class="mt-3 max-w-2xl text-muted-foreground">
-        Tres pasos, siempre por WhatsApp. Sin desplazamientos y sin lenguaje de
-        funcionario.
-      </p>
-      <ol class="mt-10 grid gap-8 md:grid-cols-3">
-        {
-          steps.map((step, i) => (
-            <li class="flex flex-col gap-3">
-              <span
-                aria-hidden="true"
-                class="flex size-10 items-center justify-center rounded-full bg-primary font-heading text-lg font-bold text-primary-foreground"
-              >
-                {i + 1}
-              </span>
-              <h3 class="font-heading text-xl font-semibold text-foreground">{step.title}</h3>
-              <p class="leading-relaxed text-muted-foreground">{step.text}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <!-- Quién soy -->
-  <section aria-labelledby="quien-titulo">
-    <div
-      class="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-14 sm:px-6 md:flex-row md:items-center md:py-20"
-    >
-      <div
-        aria-hidden="true"
-        class="flex size-36 shrink-0 -rotate-2 items-center justify-center rounded-2xl border-2 border-primary/20 bg-accent font-heading text-5xl font-bold text-saffron-deep md:size-44"
-      >
-        {SITE.name.charAt(0)}
-      </div>
-      <div class="max-w-2xl">
-        <h2 id="quien-titulo" class="font-heading text-3xl font-semibold text-primary sm:text-4xl">
-          Quién te acompaña
+          Trámites
         </h2>
-        <p class="mt-4 leading-relaxed text-foreground/85">
-          Soy {SITE.name}. Llevo años ayudando a personas migrantes —sobre todo
-          latinas— a entender y resolver sus trámites de extranjería en España.
-          Sé lo que es enfrentarse a la administración sin saber por dónde
-          empezar, y por eso trabajo de la forma más cercana posible: por
-          WhatsApp, con explicaciones claras y sin prometer nada que la ley no
-          permita.
-        </p>
-        <p class="mt-3 leading-relaxed text-muted-foreground">
-          Cada expediente lo reviso personalmente, documento a documento, antes
-          de presentarlo. Mi objetivo es el mismo que el tuyo: tu resolución
-          favorable.
-        </p>
       </div>
+
+      <div
+        data-carousel="tramites"
+        class="reveal -ml-6 -mr-6 flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-pl-6 pt-2 pr-6 pb-4 pl-6 sm:-ml-10 sm:-mr-10 sm:gap-10 sm:scroll-pl-10 sm:pt-3 sm:pr-10 sm:pl-10 lg:-ml-16 lg:-mr-16 lg:scroll-pl-16 lg:pr-16 lg:pl-16 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {
+          SERVICES.map((s) => {
+            const style = cardStyle;
+            return (
+              <a
+                href={waLink(s.whatsAppMessage)}
+                target="_blank"
+                rel="noopener"
+                class:list={[
+                  "carousel-card group flex w-[85vw] shrink-0 snap-start flex-col rounded-[2rem] p-3 sm:w-[23rem] sm:p-4",
+                  style.bg,
+                ]}
+              >
+                <div class="flex aspect-[16/10] items-center justify-center rounded-[1.5rem] bg-lavender/70">
+                  <ServiceIcon slug={s.slug} class="size-12 text-primary/60" />
+                </div>
+                <div class="flex flex-1 flex-col px-2 pt-5 pb-2 sm:px-3 sm:pt-6">
+                  <h3
+                    class:list={[
+                      "font-heading text-2xl leading-[1.05] font-medium sm:text-[1.75rem]",
+                      style.fg,
+                    ]}
+                  >
+                    {s.title}
+                  </h3>
+                  <p class:list={["mt-4 flex-1 leading-relaxed", style.muted]}>{s.short}</p>
+                  <span
+                    class:list={[
+                      "mt-8 inline-flex items-center gap-2 font-heading text-sm font-semibold transition-colors group-hover:text-primary",
+                      style.accent,
+                    ]}
+                  >
+                    {s.cta}
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="size-4 transition-transform group-hover:translate-x-1"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
+                </div>
+              </a>
+            );
+          })
+        }
+      </div>
+
+      <!-- justify-start, no justify-end: en la esquina inferior derecha
+           vive el botón flotante fijo de WhatsApp (WhatsAppFloat.astro) —
+           con las flechas ahí mismo, la flecha "siguiente" quedaba tapada
+           por el botón y parecía que nunca se desactivaba al llegar al
+           final. -->
+      <div class="mt-6 flex justify-start gap-3">
+        <button
+          type="button"
+          data-carousel-prev="tramites"
+          aria-label="Trámite anterior"
+          class="flex size-11 items-center justify-center rounded-full bg-lavender/25 text-primary transition-colors hover:bg-lavender/40 disabled:pointer-events-none disabled:opacity-30"
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          data-carousel-next="tramites"
+          aria-label="Siguiente trámite"
+          class="flex size-11 items-center justify-center rounded-full bg-lavender/25 text-primary transition-colors hover:bg-lavender/40 disabled:pointer-events-none disabled:opacity-30"
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Flechas del carrusel de Trámites: desplazan el scroll horizontal.
+    document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((carousel) => {
+      const name = carousel.dataset.carousel;
+      const prev = document.querySelector<HTMLButtonElement>(`[data-carousel-prev="${name}"]`);
+      const next = document.querySelector<HTMLButtonElement>(`[data-carousel-next="${name}"]`);
+      const scrollByCard = (dir: 1 | -1) => {
+        const card = carousel.querySelector<HTMLElement>(":scope > *");
+        const gap = parseFloat(getComputedStyle(carousel).columnGap || "0");
+        const step = card ? card.offsetWidth + gap : carousel.clientWidth * 0.85;
+        carousel.scrollBy({ left: dir * step, behavior: "smooth" });
+      };
+      prev?.addEventListener("click", () => scrollByCard(-1));
+      next?.addEventListener("click", () => scrollByCard(1));
+
+      // Las flechas se desactivan solas en cada punta: "anterior" al
+      // inicio del scroll, "siguiente" al final. El umbral de "inicio" no
+      // puede ser 1px a secas: el snap-scroll (combinado con el sangrado
+      // de margen negativo) asienta el carrusel unos px más allá de 0
+      // apenas carga (~6px en desktop), sin que el usuario haya scrolleado
+      // — con 1px la flecha "anterior" quedaba activa desde el principio.
+      // Probar capturar ese punto de partida real con JS falla por una
+      // carrera: el snap todavía no asentó cuando corre este script. Un
+      // umbral fijo más generoso (bien por debajo de lo que mueve un paso
+      // real de scroll, ~300px+) es más simple y no depende de timing.
+      const updateButtons = () => {
+        const max = carousel.scrollWidth - carousel.clientWidth;
+        if (prev) prev.disabled = carousel.scrollLeft <= 16;
+        if (next) next.disabled = carousel.scrollLeft >= max - 1;
+      };
+      updateButtons();
+      carousel.addEventListener("scroll", updateButtons, { passive: true });
+      window.addEventListener("resize", updateButtons);
+    });
+  </script>
+
+  <!-- Sobre Paola -->
+  <section
+    id="paola"
+    aria-labelledby="paola-titulo"
+    class="scroll-mt-16 flex min-h-[90svh] items-center bg-primary py-24 sm:py-32"
+  >
+    <div class="mx-auto max-w-3xl px-6 text-center sm:px-10 lg:px-16">
+      <h2
+        id="paola-titulo"
+        class="reveal font-heading leading-[1.08] font-medium text-primary-foreground"
+        style="font-size: clamp(2.25rem, 6vw, 4.5rem);"
+      >
+        Soy <span class="text-lavender">Paola</span>.
+      </h2>
+      <p class="reveal mx-auto mt-5 max-w-xl text-base leading-relaxed text-paper/85 sm:text-lg">
+        Llevo 7 años ayudando a personas migrantes latinoamericanas a
+        entender y resolver su situación migratoria en España. Sé lo que es
+        enfrentarse a trámites sin saber por dónde empezar.
+      </p>
+      <p class="reveal mx-auto mt-4 max-w-xl leading-relaxed text-paper/60">
+        Por eso trabajo de la forma más cercana posible: por WhatsApp,
+        acompañándote en cada paso. Reviso personalmente cada caso,
+        documento a documento, antes de presentarlo.
+      </p>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section
-    id="preguntas"
-    aria-labelledby="preguntas-titulo"
-    class="scroll-mt-20 border-t border-border bg-secondary/40"
-  >
-    <div class="mx-auto max-w-4xl px-4 py-14 sm:px-6 md:py-20">
-      <h2 id="preguntas-titulo" class="font-heading text-3xl font-semibold text-primary sm:text-4xl">
-        Dudas frecuentes
-      </h2>
-      <div class="mt-8">
-        <Faq items={faqs} />
+  <section aria-labelledby="preguntas-titulo" class="bg-lavender/10 py-24 sm:py-32">
+    <div id="preguntas" class="scroll-mt-24 mx-auto max-w-[100rem] px-6 sm:px-10 lg:px-16">
+      <div class="reveal lg:grid lg:grid-cols-12 lg:gap-x-12">
+        <div class="lg:col-span-4">
+          <h2
+            id="preguntas-titulo"
+            class="font-heading leading-[1.05] font-medium text-primary"
+            style="font-size: clamp(1.85rem, 4.5vw, 3.25rem);"
+          >
+            Preguntas frecuentes
+          </h2>
+        </div>
+        <div class="mt-10 lg:col-span-7 lg:col-start-6 lg:mt-0">
+          <Faq items={faqs} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonios: carrusel horizontal, mismo patrón que "Trámites"
+       (mismo script de flechas, generalizado por [data-carousel]). Va
+       después de "Preguntas frecuentes" y antes del CTA final — a pedido
+       del cliente, no justo después de "Trámites" como al principio.
+       Layout calcado de la sección "Doctor testimonials" de
+       orthofx.com/products/fxclear (varias tarjetas visibles + una
+       asomando en el borde, sangrado a la derecha, flechas circulares
+       abajo) pero sin foto — solo cita + nombre, a pedido del cliente.
+       Contenido de TESTIMONIALS (config.ts) es placeholder marcado
+       [PENDIENTE]: hay que reemplazarlo por testimonios reales antes de
+       publicar, nunca dejarlo así en producción. -->
+  <section aria-labelledby="testimonios-titulo" class="bg-lavender/10 py-24 sm:py-32">
+    <div class="mx-auto max-w-[100rem] px-6 sm:px-10 lg:px-16">
+      <div class="reveal mb-7 sm:mb-9">
+        <h2
+          id="testimonios-titulo"
+          class="font-heading leading-[1.05] font-medium text-primary"
+          style="font-size: clamp(1.85rem, 4.5vw, 3.25rem);"
+        >
+          Lo que dicen mis clientes
+        </h2>
+      </div>
+
+      <div
+        data-carousel="testimonios"
+        class="reveal -ml-6 -mr-6 flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-pl-6 pt-2 pr-6 pb-4 pl-6 sm:-ml-10 sm:-mr-10 sm:gap-10 sm:scroll-pl-10 sm:pt-3 sm:pr-10 sm:pl-10 lg:-ml-16 lg:-mr-16 lg:scroll-pl-16 lg:pr-16 lg:pl-16 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {
+          TESTIMONIALS.map((t) => (
+            <figure class="carousel-card flex w-[78vw] shrink-0 snap-start flex-col justify-between rounded-[2rem] bg-lavender/15 p-7 sm:w-[21rem] sm:p-8">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 32 24"
+                fill="currentColor"
+                class="size-6 text-lavender-deep/70"
+              >
+                <path d="M9.352 4C4.456 7.456 1 12.928 1 19.36c0 5.088 3.088 8.64 7.472 8.64 4.16 0 7.008-3.264 7.008-7.104 0-3.84-2.688-6.624-6.176-6.624-.688 0-1.408.096-1.6.192.576-3.264 3.872-7.104 7.2-9.024L9.352 4zm18.24 0c-4.896 3.456-8.352 8.928-8.352 15.36 0 5.088 3.088 8.64 7.472 8.64 4.16 0 7.008-3.264 7.008-7.104 0-3.84-2.688-6.624-6.176-6.624-.688 0-1.408.096-1.6.192.576-3.264 3.872-7.104 7.2-9.024L27.592 4z" />
+              </svg>
+              <blockquote class="mt-5 flex-1 font-heading text-base leading-relaxed text-primary sm:text-lg">
+                {t.quote}
+              </blockquote>
+              <figcaption class="mt-6 font-heading text-sm font-semibold text-lavender-deep">
+                {t.name}
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+
+      <div class="mt-6 flex justify-start gap-3">
+        <button
+          type="button"
+          data-carousel-prev="testimonios"
+          aria-label="Testimonio anterior"
+          class="flex size-11 items-center justify-center rounded-full bg-lavender/25 text-primary transition-colors hover:bg-lavender/40 disabled:pointer-events-none disabled:opacity-30"
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          data-carousel-next="testimonios"
+          aria-label="Siguiente testimonio"
+          class="flex size-11 items-center justify-center rounded-full bg-lavender/25 text-primary transition-colors hover:bg-lavender/40 disabled:pointer-events-none disabled:opacity-30"
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
       </div>
     </div>
   </section>
