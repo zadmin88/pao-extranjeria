@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:4321/)",
+      "WebFetch(domain:depoly.fiftyseven.co)",
+      "Bash(node scripts/_ref.cjs \"C:/Users/crism/AppData/Local/Temp/claude/c--Users-crism-OneDrive-Documentos-pao/264ad10a-2735-45e6-b4fd-9ad3c6c6714e/scratchpad\")",
+      "Bash(node -e ' *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

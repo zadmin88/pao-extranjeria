@@ -11,26 +11,26 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<div class="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
+<div class="divide-y divide-border">
   {
-    items.map((item) => (
-      <details class="group px-5 py-4">
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-foreground [&::-webkit-details-marker]:hidden">
+    items.map((item, index) => (
+      <details class="reveal group py-6" open={index === 0}>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-medium text-primary sm:text-xl [&::-webkit-details-marker]:hidden">
           {item.q}
           <svg
             aria-hidden="true"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            stroke-width="1.5"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
+            class="size-5 shrink-0 text-lavender-deep transition-transform group-open:rotate-45"
           >
-            <path d="m6 9 6 6 6-6" />
+            <path d="M12 5v14M5 12h14" />
           </svg>
         </summary>
-        <p class="pt-3 text-muted-foreground" set:html={item.a} />
+        <p class="mt-4 max-w-2xl leading-relaxed text-muted-foreground" set:html={item.a} />
       </details>
     ))
   }

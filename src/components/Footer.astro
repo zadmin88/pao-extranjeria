@@ -1,75 +1,52 @@
 ---
-import { SITE, SERVICES, servicePath, waLink } from "@/config";
+import logoSource from "@/assets/PO_Logo_5.svg?raw";
+import { SITE } from "@/config";
 
 const year = new Date().getFullYear();
+
+// El SVG trae los colores pensados para fondo blanco (Paola en lavanda,
+// Ocampo en eggplant, igual que el resto de logos). Sobre el footer
+// eggplant hay que invertir "Ocampo" y el descriptor a blanco para que no
+// se pierdan contra el fondo — regla del wordmark bicolor del manual de
+// marca (sobre fondo eggplant: Paola en lavanda, Ocampo en blanco). Vive
+// en src/assets/ (no en public/) porque necesita pasar por Vite con
+// `?raw` para poder inlinearlo.
+const logo = logoSource.replace(/#391a3f/g, "#fff");
 ---
 
-<footer class="border-t border-border bg-secondary/60">
-  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
-    <div class="flex flex-col gap-3">
-      <p class="font-heading text-lg font-semibold text-primary">{SITE.brand}</p>
-      <p class="max-w-xs text-sm text-muted-foreground">
-        Asesoría de extranjería online para latinos en toda España. Te acompaño en
-        tu trámite de principio a fin, por WhatsApp.
-      </p>
-      <a
-        href={waLink()}
-        target="_blank"
-        rel="noopener"
-        class="text-sm font-semibold text-wa-deep underline-offset-4 hover:underline"
-      >
-        WhatsApp: {SITE.phoneDisplay}
-      </a>
-      <a
-        href={`mailto:${SITE.email}`}
-        class="text-sm text-muted-foreground underline-offset-4 hover:underline"
-      >
-        {SITE.email}
-      </a>
+<!-- Esquinas más chicas que el resto del sitio (rounded-t-2xl, no
+     rounded-t-[2.5rem]/[3rem] como el hero): con radio grande, la curva
+     dejaba ver un triángulo de la sección de arriba (CTA, bg-lavender/10)
+     en cada esquina — se notaba como una "franja" de otro color pegada al
+     footer. Con radio chico el recorte es casi imperceptible. -->
+<footer class="rounded-t-2xl border-t border-paper/12 bg-primary sm:rounded-t-3xl">
+  <div class="mx-auto max-w-[100rem] px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
+    <!-- Mobile: logo arriba, links de navegación directo debajo, sin
+         subtítulo de grupo (ni el listado de los 5 trámites, que vive en
+         la sección "Trámites" de la home). -->
+    <div class="sm:hidden">
+      <a href="/" aria-label={`${SITE.name} — inicio`} class="mb-10 inline-block shrink-0 [&>svg]:h-20 [&>svg]:w-auto" set:html={logo} />
+      <nav aria-label="Navegación" class="flex flex-col gap-3">
+        <a href="/#tramites" class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">Trámites</a>
+        <a href="/#paola" class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">Sobre Paola</a>
+        <a href="/#preguntas" class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">Preguntas frecuentes</a>
+      </nav>
     </div>
 
-    <nav aria-label="Trámites" class="flex flex-col gap-2">
-      <p class="font-heading text-sm font-semibold tracking-wide text-foreground uppercase">
-        Trámites
-      </p>
-      {
-        SERVICES.map((s) => (
-          <a
-            href={servicePath(s.slug)}
-            class="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-          >
-            {s.menuLabel}
-          </a>
-        ))
-      }
-    </nav>
-
-    <nav aria-label="Información legal" class="flex flex-col gap-2">
-      <p class="font-heading text-sm font-semibold tracking-wide text-foreground uppercase">
-        Legal
-      </p>
-      <a
-        href="/aviso-legal/"
-        class="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-      >
-        Aviso legal
-      </a>
-      <a
-        href="/privacidad/"
-        class="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-      >
-        Política de privacidad
-      </a>
-    </nav>
+    <!-- Desktop: logo y nav en una sola fila, patrón ya establecido. -->
+    <div class="hidden items-center justify-between gap-6 sm:flex sm:gap-8">
+      <a href="/" aria-label={`${SITE.name} — inicio`} class="shrink-0 [&>svg]:h-20" set:html={logo} />
+      <nav aria-label="Navegación" class="flex flex-wrap items-center gap-x-8 gap-y-3">
+        <a href="/#tramites" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Trámites</a>
+        <a href="/#paola" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Sobre Paola</a>
+        <a href="/#preguntas" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Preguntas frecuentes</a>
+      </nav>
+    </div>
   </div>
 
-  <div class="border-t border-border">
-    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 sm:px-6">
-      <p class="text-xs text-muted-foreground">
-        © {year} {SITE.brand}. Página informativa: el contenido es orientativo y
-        no sustituye la revisión individual de tu caso. No somos una
-        administración pública.
-      </p>
+  <div class="border-t border-paper/12">
+    <div class="mx-auto max-w-[100rem] px-6 py-8 text-left text-xs text-paper/35 sm:px-10 lg:px-16">
+      <p>© {year} {SITE.name}.</p>
     </div>
   </div>
 </footer>

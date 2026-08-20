@@ -1,111 +1,252 @@
 ---
-import { SITE, SERVICES, servicePath } from "@/config";
+import { SITE, waLink } from "@/config";
 import WhatsAppButton from "@/components/WhatsAppButton.astro";
+import logoSource from "@/assets/PO_Logo_4.svg?raw";
 
-const desktopLinks = [
-  { href: "/", label: "Inicio" },
-  { href: "/#servicios", label: "Trámites" },
-  { href: "/#como-trabajamos", label: "Cómo trabajamos" },
-  { href: "/#preguntas", label: "Dudas frecuentes" },
-];
+interface Props {
+  /** Arranca transparente, integrada a la foto del hero, y se vuelve
+   * sólida al hacer scroll (requiere que la página tenga un elemento
+   * `id="hero"`). Solo la home la usa. */
+  transparent?: boolean;
+}
 
-const mobileLinks = [
-  { href: "/", label: "Inicio" },
-  ...SERVICES.map((s) => ({ href: servicePath(s.slug), label: s.menuLabel })),
-  { href: "/#preguntas", label: "Dudas frecuentes" },
+const { transparent = false } = Astro.props;
+
+// Mismo logo que el resto del sitio (PO_Logo_4, el de la barra) — se
+// probó el logo completo con descriptor (PO_Logo_5, el del footer) para
+// el panel del menú móvil, pero el cliente pidió consistencia con el
+// logo que ya usa la web. Recoloreado a blanco porque el panel es sólido
+// eggplant (bg-primary).
+const logoWhite = logoSource.replace(/#391a3f/g, "#fff");
+
+const navLinks = [
+  { href: "/#tramites", label: "Trámites", section: "tramites" },
+  { href: "/#paola", label: "Sobre Paola", section: "paola" },
+  { href: "/#preguntas", label: "Preguntas frecuentes", section: "preguntas" },
 ];
 ---
 
 <header
-  class="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur supports-backdrop-filter:bg-background/70"
+  data-nav-header
+  data-transparent={transparent ? "true" : undefined}
+  class:list={[
+    "z-30 rounded-b-2xl sm:rounded-b-3xl",
+    transparent ? "fixed inset-x-0 top-0 bg-white/15" : "sticky top-0 bg-nav-solid",
+  ]}
 >
-  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-    <a href="/" class="flex items-center gap-2.5" aria-label={`${SITE.brand} — inicio`}>
-      <span
-        aria-hidden="true"
-        class="flex size-9 -rotate-3 items-center justify-center rounded-md border-2 border-primary font-heading text-sm font-bold text-primary"
-      >
-        {SITE.name.charAt(0)}
-      </span>
-      <span class="font-heading text-lg font-semibold tracking-tight text-primary">
-        {SITE.brand}
-      </span>
+  <div class="mx-auto flex h-18 max-w-[100rem] items-center justify-between gap-3 px-6 sm:px-10 lg:px-16">
+    <a href="/" class="flex items-center" aria-label={`${SITE.name} — inicio`}>
+      <img src="/PO_Logo_4.svg" alt={SITE.name} class="h-5 w-auto sm:h-6" width="916" height="91" />
     </a>
 
-    <nav aria-label="Menú principal" class="hidden items-center gap-1 md:flex">
-      {
-        desktopLinks.map((link) => (
-          <a
-            href={link.href}
-            class="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          >
-            {link.label}
-          </a>
-        ))
-      }
-      <WhatsAppButton label="WhatsApp" class="ml-2" />
-    </nav>
+    <!-- Nav inline en escritorio: links simples, sin dropdown, más el
+         botón de Contacto al final de la barra. -->
+    <div class="hidden items-center gap-4 md:flex">
+      <nav aria-label="Menú principal" class="flex items-center gap-5">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              data-nav-link
+              data-section={link.section}
+              class="nav-current-pill rounded-full px-4 py-2.5 font-heading text-base font-semibold text-primary transition-colors hover:bg-lavender/30"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+      <WhatsAppButton
+        label="Contacto"
+        tone="primary"
+        icon={false}
+        class="h-auto !px-4 !py-2.5 !text-base hover:!bg-lavender hover:!text-primary"
+      />
+    </div>
 
-    <!-- Menú móvil sin JavaScript: <details> + CSS -->
-    <div class="flex items-center gap-1 md:hidden">
-      <WhatsAppButton label="WhatsApp" />
-      <details class="group relative">
-        <summary
-          class="flex size-10 cursor-pointer list-none items-center justify-center rounded-lg text-foreground hover:bg-muted [&::-webkit-details-marker]:hidden"
-          aria-label="Menú"
-        >
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            class="size-5 group-open:hidden"
-          >
-            <path d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            class="hidden size-5 group-open:block"
-          >
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
-        </summary>
-        <nav
-          aria-label="Menú móvil"
-          class="absolute top-full right-0 z-40 mt-2 flex w-64 flex-col gap-1 rounded-xl border border-border bg-popover p-2 shadow-lg"
-        >
+    <!-- Menú de hamburguesa: solo en mobile. Pantalla completa al abrir,
+         fondo sólido de marca y filas grandes con flecha simple (sin
+         círculo) — inspirado en el menú mobile de icreon.com. El ícono
+         cambia a blanco cuando el panel (oscuro) está abierto. Dos barras
+         (no tres): el clásico de tres líneas se sentía muy genérico — con
+         dos alcanza para leerse como menú y el morph a X (rotan ±45° y se
+         juntan en el centro) queda más limpio, sin tener que desvanecer
+         una línea del medio. Panel deslizándose desde arriba calcado del
+         menú mobile de ai-robots.apps.mdxpreview.xyz — mismos
+         tiempos/easing que la referencia (barras 150ms, panel 250ms). -->
+    <details class="group relative z-50 md:hidden">
+      <summary
+        class="relative z-50 flex size-11 cursor-pointer list-none flex-col items-center justify-center gap-2 rounded-full text-primary transition-colors hover:bg-lavender/30 group-open:text-primary-foreground group-open:hover:bg-white/10 [&::-webkit-details-marker]:hidden"
+        aria-label="Menú"
+      >
+        <span
+          aria-hidden="true"
+          class="block h-px w-6 rounded-full bg-current transition-transform duration-150 ease-out group-open:translate-y-[5px] group-open:rotate-45"
+        />
+        <span
+          aria-hidden="true"
+          class="block h-px w-6 rounded-full bg-current transition-transform duration-150 ease-out group-open:-translate-y-[5px] group-open:-rotate-45"
+        />
+      </summary>
+
+      <div class="menu-panel fixed inset-0 z-40 flex flex-col overflow-y-auto bg-primary pt-24">
+        <!-- Misma diagramación que la barra cerrada: el logo va en la
+             misma fila que el botón de hamburguesa/X (absolute, mismo
+             left-6/h-18 que el logo de la barra), no apilado debajo en su
+             propia línea. -->
+        <a
+          href="/"
+          aria-label={`${SITE.name} — inicio`}
+          class="absolute inset-x-6 top-0 z-40 flex h-18 items-center sm:inset-x-10 lg:inset-x-16 [&>svg]:h-5 [&>svg]:w-auto"
+          set:html={logoWhite}
+        />
+        <nav aria-label="Menú móvil" class="flex flex-col gap-1 px-6 py-8">
           {
-            mobileLinks.map((link) => (
+            navLinks.map((link) => (
               <a
                 href={link.href}
-                class="rounded-lg px-3 py-2.5 font-medium text-foreground hover:bg-muted"
+                data-nav-link
+                data-section={link.section}
+                class="flex items-center justify-between gap-4 py-4 font-heading text-3xl font-medium text-primary-foreground transition-colors hover:text-lavender aria-[current=true]:text-lavender"
               >
                 {link.label}
               </a>
             ))
           }
+          <a
+            href={waLink()}
+            target="_blank"
+            rel="noopener"
+            class="flex items-center justify-between gap-4 py-4 font-heading text-3xl font-medium text-primary-foreground transition-colors hover:text-lavender"
+          >
+            Contacto
+          </a>
         </nav>
-      </details>
-    </div>
+      </div>
+    </details>
   </div>
 </header>
 
 <script>
-  // Cierra el menú móvil al tocar fuera o al elegir un enlace de ancla.
-  const menu = document.querySelector<HTMLDetailsElement>("header details");
-  if (menu) {
-    document.addEventListener("click", (e) => {
-      if (menu.open && !menu.contains(e.target as Node)) menu.open = false;
+  // Cierra el panel del menú móvil al tocar fuera o al elegir un link de
+  // adentro.
+  const menus = document.querySelectorAll<HTMLDetailsElement>("header > div > details");
+  menus.forEach((menu) => {
+    menu.addEventListener("toggle", () => {
+      if (menu.open) menus.forEach((other) => other !== menu && (other.open = false));
     });
     menu.querySelectorAll("a").forEach((a) =>
       a.addEventListener("click", () => (menu.open = false))
+    );
+  });
+  document.addEventListener("click", (e) => {
+    menus.forEach((menu) => {
+      if (menu.open && !menu.contains(e.target as Node)) menu.open = false;
+    });
+  });
+
+  // Marca en la barra (desktop y móvil) la sección donde está el usuario.
+  // Esto es independiente de si la barra transparente pasa a fondo sólido
+  // (ver más abajo) — antes una cosa dependía de la otra, pero el cliente
+  // pidió que el cambio de fondo sea inmediato apenas se sienta scroll, sin
+  // relación con cuánta sección está a la vista.
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]");
+  const transparentHeader = document.querySelector<HTMLElement>("header[data-transparent]");
+  const sectionIds = [...new Set(Array.from(navLinks, (link) => link.dataset.section))].filter(
+    (id): id is string => Boolean(id)
+  );
+  const sections = sectionIds
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  let candidateId: string | null = null;
+
+  const applyActiveSection = () => {
+    navLinks.forEach((link) => {
+      if (link.dataset.section === candidateId) {
+        link.setAttribute("aria-current", "true");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  };
+
+  if (navLinks.length && sections.length && "IntersectionObserver" in window) {
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (visible.length > 0) {
+          const topmost = visible.reduce((a, b) =>
+            a.boundingClientRect.top < b.boundingClientRect.top ? a : b
+          );
+          candidateId = topmost.target.id;
+        } else {
+          // Ninguna sección está en la franja activa: si alguna quedó por
+          // debajo del borde superior (top > 0) es que volvimos a subir
+          // por encima de ella (p. ej. de vuelta al hero) — hay que
+          // apagarla.
+          const aboveAll = entries.some((entry) => entry.boundingClientRect.top > 0);
+          if (aboveAll) candidateId = null;
+        }
+        applyActiveSection();
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+    );
+    sections.forEach((section) => sectionObserver.observe(section));
+  }
+
+  // Fondo sólido de la barra transparente (solo home, header con
+  // data-transparent): pasa a bg-nav-solid apenas se detecta scroll, sin
+  // esperar a que el hero termine de salir de pantalla — "muy importante"
+  // a pedido del cliente, en vez del criterio anterior atado a cuánto del
+  // hero seguía visible. Un umbral chico (no 0 a secas) evita parpadeos
+  // por el rebote/overscroll de algunos trackpads y de iOS. bg-nav-solid
+  // (global.css) es un color-mix OPACO al 15% de lavanda — mismo tono
+  // claro que usan las cards de "Trámites" (bg-lavender/15), a pedido del
+  // cliente; probamos antes bg-secondary (perdía contraste, "se pierde"),
+  // bg-lavender a pleno color (el cliente lo encontró muy fuerte) y un
+  // bg-lavender/NN transparente (dejaba pasar contenido de atrás) — tiene
+  // que ser opaco y en este tono específico.
+  if (transparentHeader) {
+    const SCROLL_THRESHOLD = 8;
+    const updateHeaderBackground = () => {
+      const scrolled = window.scrollY > SCROLL_THRESHOLD;
+      transparentHeader.classList.toggle("bg-white/15", !scrolled);
+      transparentHeader.classList.toggle("bg-nav-solid", scrolled);
+    };
+    updateHeaderBackground();
+    window.addEventListener("scroll", updateHeaderBackground, { passive: true });
+  }
+
+  // Red de seguridad para el pill activo: en un salto largo de scroll
+  // (link del menú que cruza una sección entera de un tirón, p. ej. de
+  // "Preguntas" a "Trámites") el sectionObserver de arriba puede
+  // perderse el evento de entrada de la sección intermedia/destino y
+  // candidateId queda pegado en null. Al asentarse el scroll,
+  // recalculamos a mano con getBoundingClientRect (misma franja 40%-45%
+  // que el rootMargin del observer) para que el pill activo nunca quede
+  // sin marcar nada estando ya claramente dentro de una sección.
+  if (navLinks.length && sections.length) {
+    let settleTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener(
+      "scroll",
+      () => {
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(() => {
+          const bandTop = window.innerHeight * 0.4;
+          const bandBottom = window.innerHeight * 0.45;
+          const match = sections.find((section) => {
+            const rect = section.getBoundingClientRect();
+            return rect.top <= bandBottom && rect.bottom >= bandTop;
+          });
+          const found = match?.id ?? null;
+          if (found !== candidateId) {
+            candidateId = found;
+            applyActiveSection();
+          }
+        }, 150);
+      },
+      { passive: true }
     );
   }
 </script>

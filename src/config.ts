@@ -12,8 +12,7 @@
  */
 
 export const SITE = {
-  /** [PLACEHOLDER] Nombre de la asesora */
-  name: "Paola Rodríguez",
+  name: "Paola Ocampo",
 
   /** [PLACEHOLDER] Marca / título del sitio */
   brand: "Extranjería con Paola",
@@ -50,50 +49,50 @@ export function waLink(message: string = SITE.defaultWhatsAppMessage): string {
   return `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 
-/** Servicios: alimentan el menú, las tarjetas de la home, el footer y el sitemap interno */
+/** Servicios: alimentan las tarjetas de la home y la franja del footer */
 export const SERVICES = [
   {
     slug: "arraigo",
-    title: "Arraigos",
-    menuLabel: "Arraigo (social, sociolaboral…)",
+    title: "Arraigo social, sociolaboral y familiar",
     short:
       "Regulariza tu situación sin salir de España: arraigo social, sociolaboral, socioformativo y familiar según el nuevo reglamento.",
+    cta: "Consultar sobre mi arraigo",
     whatsAppMessage:
       "Hola Paola, vengo de tu página web. Quiero información sobre el arraigo.",
   },
   {
     slug: "renovaciones",
-    title: "Renovaciones",
-    menuLabel: "Renovación de residencia",
+    title: "Renovación de residencia",
     short:
       "Renueva tu autorización de residencia y trabajo a tiempo y sin errores que pongan en riesgo tus papeles.",
+    cta: "Renovar mi residencia",
     whatsAppMessage:
       "Hola Paola, vengo de tu página web. Necesito renovar mi residencia.",
   },
   {
     slug: "residencia-inicial",
     title: "Residencia inicial",
-    menuLabel: "Residencia inicial",
     short:
       "Tu primera autorización de residencia en España: requisitos, documentación y presentación paso a paso.",
+    cta: "Empezar mi residencia",
     whatsAppMessage:
       "Hola Paola, vengo de tu página web. Quiero información sobre la residencia inicial.",
   },
   {
     slug: "reagrupacion-familiar",
     title: "Reagrupación familiar",
-    menuLabel: "Reagrupación familiar",
     short:
       "Trae a tu familia a España de forma legal: requisitos de vivienda, ingresos y todo el expediente completo.",
+    cta: "Reagrupar a mi familia",
     whatsAppMessage:
       "Hola Paola, vengo de tu página web. Quiero reagrupar a mi familia.",
   },
   {
     slug: "modificaciones",
-    title: "Modificaciones",
-    menuLabel: "Modificación de residencia",
+    title: "Modificación de residencia",
     short:
       "Cambia de tipo de autorización: de estudios a trabajo, de no lucrativa a laboral, de cuenta ajena a propia y más.",
+    cta: "Cambiar mi autorización",
     whatsAppMessage:
       "Hola Paola, vengo de tu página web. Quiero modificar mi autorización de residencia.",
   },
@@ -101,6 +100,39 @@ export const SERVICES = [
 
 export type Service = (typeof SERVICES)[number];
 
-export function servicePath(slug: string): string {
-  return `/servicios/${slug}/`;
-}
+/**
+ * [PLACEHOLDER] Testimonios: alimentan la sección de reviews de la home.
+ * Estos 5 son de relleno para poder maquetar la sección — el "name" queda
+ * marcado como [PENDIENTE] a propósito para que sea imposible confundirlos
+ * con citas reales de clientas/clientes. Antes de publicar, reemplaza cada
+ * "quote" y "name" por un testimonio real (con el nombre real o, si la
+ * persona prefiere anonimato, con iniciales/nombre de pila — nunca dejes
+ * un testimonio sin una persona real detrás).
+ */
+export const TESTIMONIALS = [
+  {
+    quote:
+      "Desde el primer mensaje entendí qué necesitaba y cuánto iba a costar. Nada de sorpresas ni de esperar semanas para una respuesta.",
+    name: "[Nombre pendiente]",
+  },
+  {
+    quote:
+      "Llevaba meses dando vueltas sin saber por dónde empezar. Paola me lo explicó todo por WhatsApp, paso a paso, sin tecnicismos.",
+    name: "[Nombre pendiente]",
+  },
+  {
+    quote:
+      "Revisó cada documento antes de presentarlo, así que llegué segura a la cita. Se nota que conoce el proceso de memoria.",
+    name: "[Nombre pendiente]",
+  },
+  {
+    quote:
+      "Lo que más valoro es que siempre supe en qué punto estaba mi trámite. Nunca tuve que perseguir a nadie para pedir novedades.",
+    name: "[Nombre pendiente]",
+  },
+  {
+    quote:
+      "Me trató como persona, no como un número de expediente más. Eso se agradece mucho cuando no entiendes nada de leyes.",
+    name: "[Nombre pendiente]",
+  },
+] as const;

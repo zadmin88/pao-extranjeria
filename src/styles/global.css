@@ -1,20 +1,34 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/source-sans-3";
-@import "@fontsource-variable/bricolage-grotesque";
+
+/*
+ * Satoshi (vía Fontshare) — autoalojada como fuente variable (eje wght
+ * 300–900) en public/fonts/. Es el sans-serif único del sitio, tanto para
+ * titulares/navegación/botones como para cuerpo de texto. Fontshare Free
+ * License: uso comercial y autoalojado sin atribución.
+ */
+@font-face {
+    font-family: 'Satoshi Variable';
+    src: url('/fonts/Satoshi-Variable.woff2') format('woff2-variations'),
+         url('/fonts/Satoshi-Variable.woff2') format('woff2');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: 'Bricolage Grotesque Variable', 'Source Sans 3 Variable', sans-serif;
-    --font-sans: 'Source Sans 3 Variable', system-ui, sans-serif;
-    --color-saffron: var(--saffron);
-    --color-saffron-deep: var(--saffron-deep);
+    --font-heading: 'Satoshi Variable', system-ui, sans-serif;
+    --font-sans: 'Satoshi Variable', system-ui, sans-serif;
     --color-wa: var(--wa);
     --color-wa-deep: var(--wa-deep);
     --color-ink: var(--ink);
     --color-paper: var(--paper);
+    --color-lavender: var(--lavender);
+    --color-lavender-deep: var(--lavender-deep);
+    --color-nav-solid: var(--nav-solid);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -56,90 +70,106 @@
 }
 
 /*
- * Paleta "expediente": azul tinta oficial + papel cálido + azafrán.
- * El verde queda RESERVADO para las acciones de WhatsApp (--wa).
+ * Paleta oficial (Manual de Marca Paola Ocampo): morado eggplant #391A3F
+ * (primario, ~60% de uso), lavanda #C4B3E5 (acento, ~10%) y blanco puro
+ * (base, ~30%). --lavender-deep es una variante más saturada de la
+ * lavanda para texto/enlaces, ya que el tono claro oficial no cumple
+ * contraste AA sobre blanco. El verde queda RESERVADO para las acciones
+ * de WhatsApp (--wa), es un color funcional fuera de la paleta de marca.
  */
 :root {
-    --paper: oklch(0.988 0.005 90);
-    --ink: oklch(0.28 0.055 262);
-    --saffron: oklch(0.8 0.135 75);
-    --saffron-deep: oklch(0.58 0.12 65);
+    --paper: oklch(1 0 0);
+    --ink: oklch(0.28 0.076 321);
+    --lavender: oklch(0.798 0.072 300);
+    --lavender-deep: oklch(0.52 0.135 305);
     --wa: oklch(0.56 0.145 152);
     --wa-deep: oklch(0.47 0.125 152);
 
     --background: var(--paper);
-    --foreground: oklch(0.25 0.04 262);
+    --foreground: oklch(0.17 0.006 321);
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.25 0.04 262);
+    --card-foreground: oklch(0.17 0.006 321);
     --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.25 0.04 262);
+    --popover-foreground: oklch(0.17 0.006 321);
     --primary: var(--ink);
     --primary-foreground: oklch(0.985 0.005 90);
-    --secondary: oklch(0.955 0.012 85);
-    --secondary-foreground: var(--ink);
-    --muted: oklch(0.955 0.01 90);
-    --muted-foreground: oklch(0.48 0.03 262);
-    --accent: oklch(0.94 0.035 80);
-    --accent-foreground: oklch(0.35 0.07 65);
+    --secondary: oklch(0.955 0.014 300);
+    --secondary-foreground: oklch(0.17 0.006 321);
+    /* Fondo sólido de la barra de navegación (Header.astro) una vez que
+     * deja de ser transparente: el cliente pidió que sea el mismo tono
+     * claro que usan las cards (bg-lavender/15), no el lavanda sólido a
+     * pleno color. Tiene que ser un color-mix OPACO, no un bg-lavender/15
+     * con transparencia real — eso dejaba pasar contenido de atrás
+     * (bug ya visto antes con la barra). */
+    /* "in oklab", no "in oklch": mezclar un color con matiz (lavanda,
+     * hue≈300) contra uno acromático (--paper, sin matiz definido) en
+     * oklch le hace perder el rumbo al matiz interpolado — daba
+     * hue≈351 (rosa) en vez de quedarse cerca de 300 (lavanda). oklab no
+     * tiene ese problema porque no interpola por ángulo de matiz. */
+    --nav-solid: color-mix(in oklab, var(--lavender) 15%, var(--paper));
+    --muted: oklch(0.955 0.01 300);
+    --muted-foreground: oklch(0.42 0.012 321);
+    --accent: oklch(0.94 0.02 305);
+    --accent-foreground: var(--ink);
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.9 0.012 85);
-    --input: oklch(0.9 0.012 85);
-    --ring: oklch(0.5 0.09 262);
+    --border: oklch(0.9 0.014 300);
+    --input: oklch(0.9 0.014 300);
+    --ring: oklch(0.5 0.1 321);
     --chart-1: var(--ink);
-    --chart-2: var(--saffron);
+    --chart-2: var(--lavender-deep);
     --chart-3: var(--wa);
-    --chart-4: oklch(0.6 0.05 262);
+    --chart-4: oklch(0.6 0.06 321);
     --chart-5: oklch(0.75 0.03 85);
     --radius: 0.625rem;
-    --sidebar: oklch(0.97 0.008 90);
-    --sidebar-foreground: oklch(0.25 0.04 262);
+    --sidebar: oklch(0.97 0.01 300);
+    --sidebar-foreground: oklch(0.25 0.05 321);
     --sidebar-primary: var(--ink);
     --sidebar-primary-foreground: oklch(0.985 0.005 90);
-    --sidebar-accent: oklch(0.94 0.035 80);
+    --sidebar-accent: oklch(0.94 0.02 305);
     --sidebar-accent-foreground: var(--ink);
-    --sidebar-border: oklch(0.9 0.012 85);
-    --sidebar-ring: oklch(0.5 0.09 262);
+    --sidebar-border: oklch(0.9 0.014 300);
+    --sidebar-ring: oklch(0.5 0.1 321);
 }
 
 .dark {
-    --paper: oklch(0.22 0.03 262);
-    --ink: oklch(0.9 0.02 262);
-    --saffron: oklch(0.8 0.135 75);
-    --saffron-deep: oklch(0.85 0.12 80);
+    --paper: oklch(0.22 0.04 321);
+    --ink: oklch(0.9 0.03 300);
+    --lavender: oklch(0.798 0.072 300);
+    --lavender-deep: oklch(0.75 0.1 305);
     --wa: oklch(0.62 0.15 152);
     --wa-deep: oklch(0.55 0.13 152);
 
-    --background: oklch(0.2 0.028 262);
-    --foreground: oklch(0.94 0.01 90);
-    --card: oklch(0.25 0.032 262);
-    --card-foreground: oklch(0.94 0.01 90);
-    --popover: oklch(0.25 0.032 262);
-    --popover-foreground: oklch(0.94 0.01 90);
-    --primary: oklch(0.9 0.02 262);
-    --primary-foreground: oklch(0.22 0.03 262);
-    --secondary: oklch(0.28 0.035 262);
-    --secondary-foreground: oklch(0.94 0.01 90);
-    --muted: oklch(0.28 0.035 262);
-    --muted-foreground: oklch(0.72 0.02 262);
-    --accent: oklch(0.32 0.05 70);
-    --accent-foreground: oklch(0.9 0.08 80);
+    --background: oklch(0.2 0.038 321);
+    --foreground: oklch(0.94 0.015 300);
+    --card: oklch(0.25 0.042 321);
+    --card-foreground: oklch(0.94 0.015 300);
+    --popover: oklch(0.25 0.042 321);
+    --popover-foreground: oklch(0.94 0.015 300);
+    --primary: oklch(0.9 0.03 300);
+    --primary-foreground: oklch(0.22 0.04 321);
+    --secondary: oklch(0.28 0.045 321);
+    --secondary-foreground: oklch(0.94 0.015 300);
+    --muted: oklch(0.28 0.045 321);
+    --muted-foreground: oklch(0.72 0.03 300);
+    --accent: oklch(0.32 0.05 305);
+    --accent-foreground: oklch(0.9 0.05 305);
     --destructive: oklch(0.704 0.191 22.216);
     --border: oklch(1 0 0 / 12%);
     --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.6 0.08 262);
-    --chart-1: oklch(0.75 0.06 262);
-    --chart-2: var(--saffron);
+    --ring: oklch(0.6 0.08 300);
+    --chart-1: oklch(0.75 0.07 300);
+    --chart-2: var(--lavender-deep);
     --chart-3: var(--wa);
-    --chart-4: oklch(0.6 0.05 262);
+    --chart-4: oklch(0.6 0.06 321);
     --chart-5: oklch(0.45 0.03 85);
-    --sidebar: oklch(0.25 0.032 262);
-    --sidebar-foreground: oklch(0.94 0.01 90);
-    --sidebar-primary: oklch(0.9 0.02 262);
-    --sidebar-primary-foreground: oklch(0.22 0.03 262);
-    --sidebar-accent: oklch(0.32 0.05 70);
-    --sidebar-accent-foreground: oklch(0.9 0.08 80);
+    --sidebar: oklch(0.25 0.042 321);
+    --sidebar-foreground: oklch(0.94 0.015 300);
+    --sidebar-primary: oklch(0.9 0.03 300);
+    --sidebar-primary-foreground: oklch(0.22 0.04 321);
+    --sidebar-accent: oklch(0.32 0.05 305);
+    --sidebar-accent-foreground: oklch(0.9 0.05 305);
     --sidebar-border: oklch(1 0 0 / 12%);
-    --sidebar-ring: oklch(0.6 0.08 262);
+    --sidebar-ring: oklch(0.6 0.08 300);
 }
 
 @layer base {
@@ -148,12 +178,15 @@
     }
   body {
     @apply bg-background text-foreground;
+    font-weight: 400;
+    line-height: 1.6;
     }
   html {
     @apply font-sans scroll-smooth;
     }
   h1, h2, h3 {
     @apply font-heading;
+    font-weight: 500;
     text-wrap: balance;
     }
   @media (prefers-reduced-motion: reduce) {
@@ -163,13 +196,189 @@
     }
 }
 
+/*
+ * Aparición al hacer scroll, solo CSS (scroll-driven animations).
+ * Si el navegador no soporta animation-timeline, el contenido se ve
+ * normal desde el principio: no hay fallback roto ni contenido oculto.
+ * Pasó por dos versiones antes de esta: primero blur(10px)→0 (calcado de
+ * day1-run.webflow.io), sacado porque "no es acorde a una página"; después
+ * opacity 0→1 + traslado + escala, pero el cliente lo seguía viendo
+ * "borroso" — CUALQUIER fade de opacidad se ve difuso a medio camino
+ * (es literalmente texto semitransparente, se lee borroso aunque no haya
+ * ningún filter:blur). La solución es no pasar nunca por un estado
+ * semitransparente: esto usa clip-path (un recorte dtiene bordes
+ * nítidos, no hay mezcla de píxeles) combinado con traslado — el texto
+ * "sube" ya totalmente opaco, tapado por el recorte, nunca se ve
+ * desvanecido. Rango largo (cover 45%) para que se note en más tramo del
+ * scroll, no que termine de golpe. Se aplica también a cada pregunta de
+ * la FAQ por separado (no solo a nivel de sección) para que ir bajando
+ * siga revelando cosas.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+    @keyframes reveal-in {
+      from {
+        clip-path: inset(0 0 100% 0);
+        translate: 0 3rem;
+      }
+      to {
+        clip-path: inset(0 0 0% 0);
+        translate: 0 0;
+      }
+    }
+  }
+}
+
+/*
+ * Cards del carrusel de "Trámites" y "Testimonios": una respiración sutil
+ * de escala + traslado atada al scroll HORIZONTAL del propio carrusel
+ * (view-timeline en eje inline, no el eje de scroll de la página) — no a
+ * hover. El cliente pidió que el hover quede solo en el CTA (ver
+ * group-hover en index.astro, ya no hay hover en la card entera) pero que
+ * las cards no se vean estáticas al navegar con las flechas, tanto en
+ * mobile como en desktop — como las flechas hacen scroll nativo
+ * (`scrollBy`), esto se anima solo con que la card entre o salga del
+ * scrollport, sin JS extra. Antes tenía un componente de opacidad
+ * (0.55→1→0.55) pero el cliente lo veía "borroso" — una card
+ * semitransparente a medio camino se lee difusa aunque no haya blur real
+ * — así que ahora es solo escala + un leve traslado vertical, siempre
+ * 100% opaca. Mismo criterio de degradación que .reveal: sin soporte de
+ * animation-timeline, las cards se ven fijas en su tamaño normal, nunca
+ * rotas.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .carousel-card {
+      animation: carousel-card-motion linear both;
+      animation-timeline: view(inline);
+    }
+    @keyframes carousel-card-motion {
+      0% {
+        scale: 0.88;
+        translate: 0 1.25rem;
+      }
+      50% {
+        scale: 1;
+        translate: 0 0;
+      }
+      100% {
+        scale: 0.88;
+        translate: 0 1.25rem;
+      }
+    }
+  }
+}
+
+/*
+ * Panel del menú móvil (Header.astro): se desliza desde arriba en vez de
+ * aparecer de golpe — calcado del menú mobile de
+ * ai-robots.apps.mdxpreview.xyz (panel con transform 250ms ease-out desde
+ * translateY(-100%)). El navegador ya oculta el contenido no-summary de
+ * <details> cuando está cerrado (content-visibility: hidden interno); acá
+ * solo se anima ese cambio con transition-behavior: allow-discrete +
+ * @starting-style en vez de dejarlo saltar de golpe. Sin soporte de esas
+ * dos features el panel simplemente aparece sin animar (igual de
+ * funcional, mismo criterio de degradación que .reveal arriba).
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (transition-behavior: allow-discrete) {
+    .menu-panel {
+      transition:
+        transform 0.25s ease-out,
+        content-visibility 0.25s allow-discrete,
+        overlay 0.25s allow-discrete;
+      transform: translateY(-100%);
+    }
+    details[open] > .menu-panel {
+      transform: translateY(0);
+    }
+    @starting-style {
+      details[open] > .menu-panel {
+        transform: translateY(-100%);
+      }
+    }
+  }
+}
+
+/* Resalte de "sección activa" en el nav: solo se pinta cuando la barra ya
+ * es sólida (bg-nav-solid, ver Header.astro). El observer que marca la
+ * sección activa y el que decide cuándo la barra deja de ser transparente
+ * usan umbrales de scroll distintos — hay una franja donde "Trámites" ya
+ * se marca activo pero la barra sigue transparente sobre la foto, y el
+ * pill ahí se pierde contra zonas oscuras de la imagen. Al atarlo a la
+ * clase sólida, el resalte nunca aparece mientras la barra sigue sobre la
+ * foto. bg-nav-solid es un lavanda muy diluido (mismo tono que las
+ * cards), así que el pill vuelve a ser un tinte de lavanda más marcado
+ * (no blanco, que ahí se perdía por falta de contraste). */
+header.bg-nav-solid [data-nav-link].nav-current-pill[aria-current="true"] {
+  background-color: color-mix(in oklch, var(--lavender) 45%, transparent);
+}
+
+/* Oculta el botón flotante de WhatsApp mientras el menú de hamburguesa
+ * está abierto (pantalla completa en mobile): sin esto quedaba encimado
+ * sobre el botón "Contacto" del propio menú. */
+body:has(header details[open]) .whatsapp-float {
+  display: none;
+}
+
+/* Anillo de pulso detrás del botón flotante de WhatsApp: un ::before que
+ * se expande y se desvanece en bucle, para llamar la atención sin
+ * necesitar JavaScript. z-index negativo lo mantiene detrás del ícono,
+ * dentro del propio stacking context del botón (que ya es `fixed`). */
+@media (prefers-reduced-motion: no-preference) {
+  .whatsapp-float::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: var(--primary);
+    animation: whatsapp-float-pulse 2.4s ease-out infinite;
+  }
+  @keyframes whatsapp-float-pulse {
+    from {
+      opacity: 0.45;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 1.6;
+    }
+  }
+}
+
+/* Panel del menú del header (<details>): entrada suave al abrir, en vez
+ * del show/hide instantáneo por defecto de <details>. Sin JavaScript. */
+@media (prefers-reduced-motion: no-preference) {
+  details[open] > .menu-panel {
+    animation: menu-panel-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes menu-panel-in {
+    from {
+      opacity: 0;
+      translate: 0 -0.5rem;
+      scale: 0.97;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+      scale: 1;
+    }
+  }
+}
+
 /* Tipografía de las páginas de servicio (contenido largo) */
 @layer components {
   .service-body h2 {
-    @apply font-heading text-primary mt-10 mb-3 text-2xl font-semibold first:mt-0 sm:text-3xl;
+    @apply font-heading text-primary mt-14 mb-4 text-2xl leading-tight font-medium tracking-tight first:mt-0 sm:text-3xl;
   }
   .service-body h3 {
-    @apply font-heading text-foreground mt-7 mb-2 text-xl font-semibold;
+    @apply font-heading text-foreground mt-9 mb-2 text-xl font-medium;
   }
   .service-body p {
     @apply text-foreground/85 mb-4 leading-relaxed;
@@ -188,14 +397,14 @@
     width: 1.05rem;
     height: 1.05rem;
     border-radius: 9999px;
-    background-color: color-mix(in oklch, var(--saffron) 25%, transparent);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a5a10' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    background-color: color-mix(in oklch, var(--lavender) 40%, transparent);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23391a3f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
     background-size: 60%;
     background-position: center;
     background-repeat: no-repeat;
   }
   .service-body .aviso {
-    @apply border-saffron bg-accent text-accent-foreground my-6 rounded-lg border-l-4 p-4 text-sm;
+    @apply border-lavender-deep bg-accent text-accent-foreground my-6 rounded-lg border-l-4 p-4 text-sm;
   }
   .service-body .aviso p {
     @apply text-accent-foreground m-0;
@@ -206,7 +415,6 @@
 .stamp {
     font-family: var(--font-heading);
     letter-spacing: 0.12em;
-    text-transform: uppercase;
     border: 2px solid var(--wa-deep);
     color: var(--wa-deep);
     border-radius: 0.375rem;

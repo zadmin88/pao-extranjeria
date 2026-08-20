@@ -1,5 +1,4 @@
 ---
-import { SITE } from "@/config";
 import WhatsAppButton from "@/components/WhatsAppButton.astro";
 
 interface Props {
@@ -9,24 +8,27 @@ interface Props {
 const { message } = Astro.props;
 ---
 
-<section aria-labelledby="cta-titulo" class="bg-primary">
-  <div
-    class="mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-14 sm:px-6 md:flex-row md:items-center md:justify-between"
-  >
-    <div class="flex max-w-xl flex-col gap-2">
-      <h2 id="cta-titulo" class="font-heading text-3xl font-semibold text-primary-foreground">
-        ¿Hablamos de tu caso?
+<section aria-labelledby="cta-titulo" class="bg-lavender/10 py-24 sm:py-36">
+  <div class="mx-auto max-w-[100rem] px-6 sm:px-10 lg:px-16">
+    <div class="reveal mx-auto max-w-2xl text-center">
+      <h2
+        id="cta-titulo"
+        class="font-heading leading-[1.05] font-medium text-primary"
+        style="font-size: clamp(1.85rem, 4.5vw, 3.25rem);"
+      >
+        ¿No sabes por dónde <span class="text-lavender-deep">empezar</span>?
       </h2>
-      <p class="text-primary-foreground/80">
-        Cuéntame tu situación por WhatsApp. Te digo qué trámite te conviene, qué
-        documentos necesitas y cuánto cuesta, antes de empezar.
-      </p>
-    </div>
-    <div class="flex flex-col items-start gap-2">
-      <WhatsAppButton size="lg" message={message} />
-      <p class="text-sm text-primary-foreground/70">
-        O guarda mi número: <span class="font-semibold text-primary-foreground">{SITE.phoneDisplay}</span>
-      </p>
+      <p class="mt-4 font-heading text-xl text-muted-foreground sm:text-2xl">Escríbeme y lo resolvemos juntos.</p>
+      <div class="mt-8 flex justify-center">
+        <WhatsAppButton
+          size="lg"
+          label="Cuéntame tu caso"
+          tone="primary"
+          icon={false}
+          message={message}
+          class="hover:!bg-lavender hover:!text-primary"
+        />
+      </div>
     </div>
   </div>
 </section>
