@@ -73,14 +73,14 @@ Para el servidor en segundo plano: `astro dev --background` (gestión con
   - No introduzcas colores fuera de esta paleta (nada de azafrán, crema,
     negro puro, etc. — si en algún momento ves esos tokens en el código es
     que quedaron de una iteración anterior y hay que quitarlos).
-  - **Excepción puntual al verde reservado**: el botón flotante fijo
-    (`WhatsAppFloat.astro`, la burbuja que sigue el scroll) pasó a lavanda
-    de marca (`bg-lavender`, ícono `text-primary`) a pedido del cliente —
-    revierte, solo para ESE componente, la regla de "el verde es funcional
-    y no se toca". El resto de los botones de WhatsApp (`WhatsAppButton.astro`
-    con `tone="wa"` — el CTA del hero, las cards de Trámites, etc.) siguen
-    en verde sin cambios; no generalices el lavanda a todos los botones de
-    WhatsApp sin que el cliente lo pida explícitamente.
+  - **El botón flotante (`WhatsAppFloat.astro`) siempre en verde de
+    WhatsApp**: pasó brevemente a lavanda de marca (`bg-lavender`, ícono
+    `text-primary`) a pedido del cliente, pero se revirtió — el cliente
+    pidió que el ícono que "está por fuera" (la burbuja fija que sigue el
+    scroll) sea siempre verde, en el tono de WhatsApp (`bg-wa`/`bg-wa-deep`
+    en hover, icono blanco), igual que el resto de botones de WhatsApp
+    (`WhatsAppButton.astro` con `tone="wa"`). No reintroduzcas el lavanda
+    en este componente sin que el cliente lo pida explícitamente de nuevo.
 - **Jerarquía tipográfica**: sin texto en mayúscula en ningún sitio del sitio
   (decisión posterior al manual — desvía de la sección 05, que sí pedía H1 y
   eyebrows en mayúsculas). Todos los títulos (H1, H2, H3, FAQ y elementos con
@@ -366,13 +366,40 @@ Para el servidor en segundo plano: `astro dev --background` (gestión con
   componentes: `npx shadcn@latest add <componente>`. Los ya instalados están en
   `src/components/ui/`. Si hay una skill de shadcn disponible, úsala.
 
-### Rendimiento (regla de oro: cero JavaScript)
+### Rendimiento (regla de oro: cero JavaScript — con una excepción, ver abajo)
 
-- El sitio se envía **sin JavaScript** al navegador. No añadas islands de React
+- El sitio se envía **sin JavaScript** al navegador salvo la excepción de
+  scroll/animaciones descrita abajo. No añadas islands de React
   (`client:load`, `client:visible`…) salvo necesidad real e imprescindible;
   para interactividad simple usa CSS o `<details>` (así funciona el menú móvil
-  en `Header.astro`). Los `.tsx` de shadcn pueden usarse renderizados en
-  servidor (sin directiva `client:`) — eso no envía JS.
+  en `Header.astro`, los desplegables de `Faq.astro`, etc.). Los `.tsx` de
+  shadcn pueden usarse renderizados en servidor (sin directiva `client:`) —
+  eso no envía JS. El sitio ya llevaba antes un poco de JS vainilla mínimo
+  para cosas puramente mecánicas que CSS no puede resolver (flechas de los
+  carruseles de `[data-carousel]`, el cambio de fondo del header al hacer
+  scroll en la home) — eso sigue igual, vive en `BaseLayout.astro`/
+  `Header.astro`, sin librerías.
+- **Excepción: scroll suave + reveals animados (Lenis + GSAP ScrollTrigger)**.
+  El cliente pidió replicar el scroll animado de un sitio de referencia
+  (Squarespace Foundations, `brand.squarespace.com/logo`), que usa Lenis
+  (scroll suave) + GSAP ScrollTrigger (animaciones ancladas al scroll) — se
+  le avisó explícitamente que esto significa sumar JavaScript real (dos
+  librerías npm) y rompe la regla de cero JS de arriba, y confirmó que
+  quería seguir igual. Vive en `src/scripts/scroll.ts`, importado desde un
+  `<script>` en `BaseLayout.astro`. Reemplaza el reveal-on-scroll que antes
+  era 100% CSS (`animation-timeline: view()`, en `.reveal`): ese enfoque
+  ataba la animación a la posición de scroll en vez de a un tiempo fijo, así
+  que con scroll lento se veía "borroso" a medio camino — con GSAP el
+  tween tiene duración fija (0.6s, ease `power2.out`) y se dispara una sola
+  vez al entrar en pantalla, sin ese problema. Respeta
+  `prefers-reduced-motion: reduce` (si está activo, ni Lenis ni los tweens
+  se inicializan — scroll nativo, contenido visible sin animar). GSAP y
+  ScrollTrigger son 100% gratis para uso comercial desde que Webflow
+  adquirió GreenSock (mayo 2025), sin necesidad de license key. Si el
+  cliente pide más animaciones ancladas al scroll (parallax, texto que se
+  divide en letras, secciones "pinneadas"), este es el lugar: ya está la
+  infraestructura de Lenis + ScrollTrigger lista para registrar más
+  triggers, no hace falta otra librería.
 - Imágenes: usa `astro:assets` (`<Image>`) con `alt` siempre.
 
 ### SEO (no tocar sin entender)

@@ -1,16 +1,17 @@
 ﻿---
 import ServiceLayout from "@/layouts/ServiceLayout.astro";
 import { SERVICES } from "@/config";
+import heroImage from "@/assets/servicios/modificaciones.jpg";
 
 const service = SERVICES.find((s) => s.slug === "modificaciones")!;
 
 const faqs = [
   {
-    q: "Estoy estudiando en España, ¿puedo quedarme a trabajar?",
+    q: "¿Puedo quedarme a trabajar si estoy estudiando en España?",
     a: "Sí. Puedes modificar tu estancia por estudios a una autorización de residencia y trabajo si tienes una oferta laboral, y el nuevo reglamento ha flexibilizado los requisitos. Además, la propia estancia por estudios ya permite trabajar hasta 30 horas semanales.",
   },
   {
-    q: "Tengo residencia no lucrativa y me han ofrecido trabajo, ¿qué hago?",
+    q: "¿Qué hago si tengo residencia no lucrativa y me han ofrecido trabajo?",
     a: "Se puede modificar la residencia no lucrativa a una autorización de residencia y trabajo. Necesitas la oferta o contrato y cumplir los requisitos de la nueva autorización. Es un trámite habitual y suele salir bien planteado a tiempo.",
   },
   {
@@ -22,6 +23,63 @@ const faqs = [
     a: "No. El tiempo de residencia legal se acumula aunque cambies de tipo de autorización. Modificar no te resta antigüedad para la residencia de larga duración ni para la nacionalidad.",
   },
 ];
+
+const steps = [
+  {
+    title: "Diagnóstico",
+    text: "Analizo tu autorización actual y el destino que quieres, y confirmo que la modificación es viable.",
+  },
+  {
+    title: "Calendario",
+    text: "Planifico las fechas para presentar en el momento óptimo.",
+  },
+  {
+    title: "Documentación",
+    text: "Preparo el expediente completo con la documentación de la nueva autorización.",
+  },
+  {
+    title: "Presentación",
+    text: "Presento telemáticamente, sigo el expediente y gestiono tu nueva TIE.",
+  },
+];
+
+const options = [
+  {
+    q: "De estancia por estudios a residencia y trabajo",
+    a: "El salto natural al terminar (o incluso durante) tu formación, con oferta de empleo.",
+  },
+  {
+    q: "De residencia no lucrativa a residencia y trabajo",
+    a: "Cuando llegaste con ahorros y ahora quieres (o necesitas) trabajar.",
+  },
+  {
+    q: "De cuenta ajena a cuenta propia",
+    a: "Para dejar el empleo y montar tu negocio como autónomo, o compatibilizar ambos.",
+  },
+  {
+    q: "De residencia por arraigo al régimen general",
+    a: "El paso que consolida tu situación una vez tienes tu autorización por circunstancias excepcionales.",
+  },
+  {
+    q: "De familiar reagrupado a autorización independiente",
+    a: "Cuando quieres dejar de depender del reagrupante.",
+  },
+];
+
+const requisitos = [
+  {
+    title: "Autorización vigente",
+    text: "Que tu autorización actual esté vigente — los plazos importan muchísimo.",
+  },
+  {
+    title: "Requisitos de destino",
+    text: "Contrato, medios económicos, alta de autónomo... según la autorización a la que pases.",
+  },
+  {
+    title: "Buen historial en España",
+    text: "Cotizaciones, empadronamiento y ausencia de antecedentes penales.",
+  },
+];
 ---
 
 <ServiceLayout
@@ -29,48 +87,16 @@ const faqs = [
   seoTitle="Modificación de residencia: de estudios a trabajo y otros cambios"
   seoDescription="Cambia tu autorización sin salir de España: de estudios a residencia y trabajo, de no lucrativa a laboral, de cuenta ajena a cuenta propia. Requisitos, plazos y acompañamiento completo por WhatsApp."
   heroIntro="Tu vida en España cambia: terminas los estudios, te ofrecen un contrato, montas tu negocio. Tu autorización de residencia puede cambiar contigo sin volver a empezar de cero. Eso es una modificación, y es mi especialidad favorita."
+  heroImage={heroImage}
+  heroImageAlt="Hombre sonriente trabajando con su portátil en la oficina"
+  introTitle="Qué es una modificación"
+  introText="Una modificación te permite pasar de un tipo de autorización a otro desde dentro de España, sin regresar a tu país ni perder la antigüedad acumulada. Es la herramienta clave cuando tu situación real ya no encaja con el permiso que tienes."
   faqs={faqs}
+  steps={steps}
+  options={options}
+  optionsTitle="Modificaciones más habituales"
+  requisitos={requisitos}
+  avisoText="El momento de presentar una modificación es estratégico: hacerlo demasiado pronto o demasiado tarde puede complicarla. Cuéntame qué permiso tienes, cuándo caduca y qué quieres hacer, y te digo el mejor camino y el mejor momento."
 >
-  <span slot="h1">Modificación de residencia: cambia de autorización sin salir de España</span>
-
-  <h2>Qué es una modificación</h2>
-  <p>
-    Una modificación te permite pasar de un tipo de autorización a otro desde
-    dentro de España, sin regresar a tu país ni perder la antigüedad acumulada.
-    Es la herramienta clave cuando tu situación real ya no encaja con el permiso
-    que tienes.
-  </p>
-
-  <h2>Modificaciones más habituales</h2>
-  <ul>
-    <li><strong>De estancia por estudios a residencia y trabajo:</strong> el salto natural al terminar (o incluso durante) tu formación, con oferta de empleo.</li>
-    <li><strong>De residencia no lucrativa a residencia y trabajo:</strong> cuando llegaste con ahorros y ahora quieres (o necesitas) trabajar.</li>
-    <li><strong>De cuenta ajena a cuenta propia:</strong> para dejar el empleo y montar tu negocio como autónomo, o compatibilizar ambos.</li>
-    <li><strong>De residencia por circunstancias excepcionales (arraigo) al régimen general:</strong> el paso que consolida tu situación.</li>
-    <li><strong>De familiar reagrupado a autorización independiente:</strong> cuando quieres dejar de depender del reagrupante.</li>
-  </ul>
-
-  <h2>Qué se valora en general</h2>
-  <ul>
-    <li>Que tu autorización actual esté vigente (los plazos importan muchísimo).</li>
-    <li>Que cumplas los requisitos de la autorización de destino: contrato, medios, alta de autónomo, etc.</li>
-    <li>Tu historial en España: cotizaciones, empadronamiento, ausencia de antecedentes.</li>
-  </ul>
-
-  <div class="aviso">
-    <p>
-      El momento de presentar una modificación es estratégico: hacerlo demasiado
-      pronto o demasiado tarde puede complicarla. Cuéntame qué permiso tienes,
-      cuándo caduca y qué quieres hacer, y te digo el mejor camino y el mejor
-      momento.
-    </p>
-  </div>
-
-  <h2>Cómo te ayudo</h2>
-  <ul>
-    <li>Analizo tu autorización actual y el destino que quieres, y confirmo que la modificación es viable.</li>
-    <li>Planifico las fechas para presentar en el momento óptimo.</li>
-    <li>Preparo el expediente completo con la documentación de la nueva autorización.</li>
-    <li>Presento telemáticamente, sigo el expediente y gestiono tu nueva TIE.</li>
-  </ul>
+  <Fragment slot="h1">Modificación de residencia: <span class="text-lavender-deep">cambia de autorización</span> sin salir de España</Fragment>
 </ServiceLayout>

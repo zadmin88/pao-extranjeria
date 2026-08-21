@@ -1,5 +1,5 @@
 ---
-import { SITE, waLink } from "@/config";
+import { SITE, SERVICES, servicePath, waLink } from "@/config";
 import WhatsAppButton from "@/components/WhatsAppButton.astro";
 import logoSource from "@/assets/PO_Logo_4.svg?raw";
 
@@ -39,29 +39,84 @@ const navLinks = [
       <img src="/PO_Logo_4.svg" alt={SITE.name} class="h-5 w-auto sm:h-6" width="916" height="91" />
     </a>
 
-    <!-- Nav inline en escritorio: links simples, sin dropdown, más el
-         botón de Contacto al final de la barra. -->
+    <!-- Nav inline en escritorio: "Trámites" abre un submenú. Versión
+         anterior (forma de "carpeta", con esquinas aplanadas para unir
+         pestaña y panel) quedó descartada — el cliente la vio "extraña"
+         y pidió organizarla mejor, con todo en el mismo tono. Ahora es
+         un dropdown convencional: la pastilla usa el mismo
+         `hover:bg-lavender/30` que el resto de links del menú (antes
+         tenía un tratamiento aparte, bg-paper, que no combinaba con
+         nada — otra fuente de la sensación "rara"; ¡ojo! no usar
+         `group-hover:bg-nav-solid` acá — al ser el mismo tono que ya
+         tiene la barra abierta, la pastilla se vuelve invisible en
+         hover, sin ningún feedback visual), y el panel usa el mismo
+         fondo que la barra ya abierta (`bg-nav-solid`, no `bg-paper`):
+         todo el conjunto —barra, pastilla en hover, panel— queda dentro
+         de la misma familia de tono lavanda, sin blancos sueltos.
+         Esquinas redondeadas normales en las cuatro puntas del panel
+         (`rounded-xl`, menos redondeado que las cards grandes del sitio —
+         a pedido del cliente, un panel de navegación chico se sentía
+         "demasiado pastilla" con el `rounded-[2rem]` que usan las cards),
+         separado del trigger por un pequeño respiro y de la página de
+         abajo con una sombra sutil en tinte eggplant (también reducida a
+         pedido del cliente: la original se veía muy marcada/dura para un
+         menú). Solo títulos, sin
+         descripción ni iconos. Solo CSS (:hover + :focus-within del
+         `group`), nada de JavaScript. -->
     <div class="hidden items-center gap-4 md:flex">
       <nav aria-label="Menú principal" class="flex items-center gap-5">
-        {
-          navLinks.map((link) => (
-            <a
-              href={link.href}
-              data-nav-link
-              data-section={link.section}
-              class="nav-current-pill rounded-full px-4 py-2.5 font-heading text-base font-semibold text-primary transition-colors hover:bg-lavender/30"
+        <div class="group relative">
+          <a
+            href="/#tramites"
+            data-nav-link
+            data-section="tramites"
+            class="nav-current-pill inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 font-heading text-base font-semibold text-primary transition-colors hover:bg-lavender/30"
+          >
+            Trámites
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="size-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180"
             >
-              {link.label}
-            </a>
-          ))
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="invisible absolute left-0 top-full z-20 w-64 pt-2 opacity-0 transition-[opacity,visibility] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+            <div class="flex flex-col gap-1 rounded-xl bg-nav-solid p-3 shadow-[0_6px_14px_-6px_rgba(57,26,63,0.14)]">
+              {
+                SERVICES.map((s) => (
+                  <a
+                    href={servicePath(s.slug)}
+                    class="rounded-2xl px-4 py-3 font-heading text-sm font-semibold text-primary transition-colors hover:bg-lavender/15"
+                  >
+                    {s.title}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        {
+          navLinks
+            .filter((link) => link.section !== "tramites")
+            .map((link) => (
+              <a
+                href={link.href}
+                data-nav-link
+                data-section={link.section}
+                class="nav-current-pill rounded-full px-4 py-2.5 font-heading text-base font-semibold text-primary transition-colors hover:bg-lavender/30"
+              >
+                {link.label}
+              </a>
+            ))
         }
       </nav>
-      <WhatsAppButton
-        label="Contacto"
-        tone="primary"
-        icon={false}
-        class="h-auto !px-4 !py-2.5 !text-base hover:!bg-lavender hover:!text-primary"
-      />
+      <WhatsAppButton label="Contacto" tone="primary" icon={false} class="h-auto !px-4 !py-2.5 !text-base" />
     </div>
 
     <!-- Menú de hamburguesa: solo en mobile. Pantalla completa al abrir,
@@ -101,17 +156,41 @@ const navLinks = [
           set:html={logoWhite}
         />
         <nav aria-label="Menú móvil" class="flex flex-col gap-1 px-6 py-8">
+          <!-- "Trámites" en mobile: los 5 trámites van siempre visibles
+               debajo del título, sin nada para tocar/expandir — a pedido
+               del cliente, que ya no quería el <details> plegable (antes
+               había que tocar "Trámites" para ver la lista). Ya no es un
+               link ni un control interactivo, solo un rótulo. -->
+          <div>
+            <span class="flex items-center py-4 font-heading text-3xl font-medium text-primary-foreground">
+              Trámites
+            </span>
+            <div class="flex flex-col gap-1 pb-4 pl-4">
+              {
+                SERVICES.map((s) => (
+                  <a
+                    href={servicePath(s.slug)}
+                    class="py-2.5 font-heading text-xl font-medium text-paper/80 transition-colors hover:text-lavender"
+                  >
+                    {s.title}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
           {
-            navLinks.map((link) => (
-              <a
-                href={link.href}
-                data-nav-link
-                data-section={link.section}
-                class="flex items-center justify-between gap-4 py-4 font-heading text-3xl font-medium text-primary-foreground transition-colors hover:text-lavender aria-[current=true]:text-lavender"
-              >
-                {link.label}
-              </a>
-            ))
+            navLinks
+              .filter((link) => link.section !== "tramites")
+              .map((link) => (
+                <a
+                  href={link.href}
+                  data-nav-link
+                  data-section={link.section}
+                  class="flex items-center justify-between gap-4 py-4 font-heading text-3xl font-medium text-primary-foreground transition-colors hover:text-lavender aria-[current=true]:text-lavender"
+                >
+                  {link.label}
+                </a>
+              ))
           }
           <a
             href={waLink()}

@@ -11,10 +11,17 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<div class="divide-y divide-border">
+<!-- first:pt-0: sin esto, el título de la sección que precede a este
+     acordeón (con su propio mt-5 sm:mt-7 estándar) sumaba ese margen AL
+     py-6 del primer <details>, quedando con más aire título→contenido que
+     cualquier otro título→párrafo/cards del sitio. Quitando el padding
+     superior solo al primer item, el margen del contenedor exterior pasa
+     a ser la única fuente de espacio y el ritmo queda igual en toda la
+     página. -->
+<div class="divide-y divide-border/60">
   {
     items.map((item, index) => (
-      <details class="reveal group py-6" open={index === 0}>
+      <details class="reveal group py-6 first:pt-0" open={index === 0}>
         <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-medium text-primary sm:text-xl [&::-webkit-details-marker]:hidden">
           {item.q}
           <svg

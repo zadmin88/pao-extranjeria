@@ -1,6 +1,7 @@
 ﻿---
 import ServiceLayout from "@/layouts/ServiceLayout.astro";
 import { SERVICES } from "@/config";
+import heroImage from "@/assets/servicios/residencia-inicial.jpg";
 
 const service = SERVICES.find((s) => s.slug === "residencia-inicial")!;
 
@@ -18,8 +19,50 @@ const faqs = [
     a: "Se exige un porcentaje del IPREM anual para el titular y un extra por cada familiar. La cifra exacta se actualiza cada año, así que conviene calcularla con los valores vigentes en el momento de tu solicitud. Te la calculo para tu caso concreto.",
   },
   {
-    q: "Acabo de llegar a España, ¿qué hago primero?",
+    q: "¿Qué hago primero si acabo de llegar a España?",
     a: "Empadrónate cuanto antes en tu domicilio: el padrón es la prueba principal de tu permanencia y te abre la puerta a la sanidad y a futuros trámites como el arraigo. Después, guarda todo documento con fecha a tu nombre.",
+  },
+];
+
+const steps = [
+  {
+    title: "Diagnóstico",
+    text: "Estudio tu caso y te propongo la vía con más probabilidades de éxito.",
+  },
+  {
+    title: "Documentación",
+    text: "Lista de documentos personalizada, con formato, apostillas y traducciones incluidas.",
+  },
+  {
+    title: "Presentación",
+    text: "Preparación y presentación del expediente completo.",
+  },
+  {
+    title: "TIE",
+    text: "Acompañamiento hasta la TIE: citas, huellas y recogida de la tarjeta.",
+  },
+];
+
+const options = [
+  {
+    q: "Residencia y trabajo por cuenta ajena",
+    a: "Con una oferta de empleo, tramitada desde tu país vía consulado.",
+  },
+  {
+    q: "Arraigo",
+    a: "Si ya llevas 2 o 3 años viviendo en España — es la vía más común para regularizarse desde dentro.",
+  },
+  {
+    q: "Familiar de ciudadano de la UE o español",
+    a: "Si tu cónyuge, pareja registrada o familiar directo es español o comunitario.",
+  },
+  {
+    q: "Residencia no lucrativa",
+    a: "Si tienes ingresos o ahorros suficientes para vivir sin trabajar en España.",
+  },
+  {
+    q: "Estudios",
+    a: "Estancia por estudios que después puede convertirse en residencia y trabajo.",
   },
 ];
 ---
@@ -29,54 +72,14 @@ const faqs = [
   seoTitle="Residencia inicial en España: tu primera autorización paso a paso"
   seoDescription="Tu primera autorización de residencia en España: por trabajo, arraigo, familiar o no lucrativa. Te explico qué vía te corresponde, los requisitos y te acompaño en todo el proceso, incluida la TIE."
   heroIntro="Conseguir tu primera residencia en España no es un solo trámite: es elegir bien la vía, reunir los documentos correctos y presentarlos donde toca. Te guío desde el primer papel hasta que tienes tu tarjeta en la mano."
+  heroImage={heroImage}
+  heroImageAlt="Viajeros con maletas caminando por una terminal de aeropuerto"
+  introTitle="No hay una sola puerta de entrada"
+  introText='"Residencia inicial" es la primera autorización que te permite vivir (y normalmente trabajar) legalmente en España. Existen varias vías, y elegir la equivocada significa perder meses y dinero.'
   faqs={faqs}
+  steps={steps}
+  options={options}
+  optionsTitle="Las vías más habituales entre latinos"
 >
-  <span slot="h1">Tu primera residencia en España, paso a paso</span>
-
-  <h2>No hay una sola puerta de entrada</h2>
-  <p>
-    "Residencia inicial" es la primera autorización que te permite vivir (y
-    normalmente trabajar) legalmente en España. Existen varias vías, y elegir la
-    equivocada significa perder meses y dinero. Estas son las más habituales
-    entre latinos:
-  </p>
-  <ul>
-    <li><strong>Residencia y trabajo por cuenta ajena:</strong> con una oferta de empleo, tramitada desde tu país vía consulado.</li>
-    <li><strong>Arraigo:</strong> si ya llevas 2 o 3 años viviendo en España — es la vía más común para regularizarse desde dentro.</li>
-    <li><strong>Familiar de ciudadano de la UE o español:</strong> si tu cónyuge, pareja registrada o familiar directo es español o comunitario.</li>
-    <li><strong>Residencia no lucrativa:</strong> si tienes ingresos o ahorros suficientes para vivir sin trabajar en España.</li>
-    <li><strong>Estudios:</strong> estancia por estudios que después puede convertirse en residencia y trabajo.</li>
-  </ul>
-
-  <h2>El camino típico</h2>
-  <ul>
-    <li>Definimos la vía correcta según tu situación real (dónde estás, qué vínculos y recursos tienes).</li>
-    <li>Reunimos y revisamos la documentación: pasaporte, antecedentes penales apostillados, medios económicos, seguro médico o contrato según la vía.</li>
-    <li>Presentamos la solicitud en el organismo que corresponde (consulado u oficina de extranjería).</li>
-    <li>Con la autorización concedida, pedimos cita para huellas y tramitamos tu TIE, la tarjeta física.</li>
-  </ul>
-
-  <div class="aviso">
-    <p>
-      Los requisitos económicos (IPREM) y las tasas se actualizan cada año, y cada
-      consulado tiene sus manías. Antes de mover un solo papel, escríbeme y te
-      confirmo los importes y documentos vigentes para tu caso.
-    </p>
-  </div>
-
-  <h2>Errores que veo cada semana</h2>
-  <ul>
-    <li>Antecedentes penales sin apostillar o caducados en el momento de presentar.</li>
-    <li>Traducciones no juradas de documentos en otros idiomas.</li>
-    <li>Elegir la residencia no lucrativa queriendo trabajar (no lo permite).</li>
-    <li>Dejar pasar los plazos entre la concesión del visado, la entrada en España y la solicitud de la TIE.</li>
-  </ul>
-
-  <h2>Cómo te ayudo</h2>
-  <ul>
-    <li>Estudio tu caso y te propongo la vía con más probabilidades de éxito.</li>
-    <li>Lista de documentos personalizada, con formato, apostillas y traducciones incluidas.</li>
-    <li>Preparación y presentación del expediente completo.</li>
-    <li>Acompañamiento hasta la TIE: citas, huellas y recogida de la tarjeta.</li>
-  </ul>
+  <Fragment slot="h1">Tu primera residencia en España, <span class="text-lavender-deep">paso a paso</span></Fragment>
 </ServiceLayout>
