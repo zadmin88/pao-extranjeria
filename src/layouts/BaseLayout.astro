@@ -64,5 +64,46 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
     </main>
     <Footer />
     <WhatsAppFloat />
+    <script>
+      import "@/scripts/scroll";
+    </script>
+    <script>
+      // Flechas de los carruseles horizontales (Trámites/Testimonios en la
+      // home, Requisitos en las páginas de trámite): desplazan el scroll
+      // horizontal. Vive en BaseLayout (no en cada página) para que
+      // cualquier [data-carousel] funcione sin duplicar el script.
+      document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((carousel) => {
+        const name = carousel.dataset.carousel;
+        const prev = document.querySelector<HTMLButtonElement>(`[data-carousel-prev="${name}"]`);
+        const next = document.querySelector<HTMLButtonElement>(`[data-carousel-next="${name}"]`);
+        const scrollByCard = (dir: 1 | -1) => {
+          const card = carousel.querySelector<HTMLElement>(":scope > *");
+          const gap = parseFloat(getComputedStyle(carousel).columnGap || "0");
+          const step = card ? card.offsetWidth + gap : carousel.clientWidth * 0.85;
+          carousel.scrollBy({ left: dir * step, behavior: "smooth" });
+        };
+        prev?.addEventListener("click", () => scrollByCard(-1));
+        next?.addEventListener("click", () => scrollByCard(1));
+
+        // Las flechas se desactivan solas en cada punta: "anterior" al
+        // inicio del scroll, "siguiente" al final. El umbral de "inicio" no
+        // puede ser 1px a secas: el snap-scroll (combinado con el sangrado
+        // de margen negativo) asienta el carrusel unos px más allá de 0
+        // apenas carga (~6px en desktop), sin que el usuario haya scrolleado
+        // — con 1px la flecha "anterior" quedaba activa desde el principio.
+        // Probar capturar ese punto de partida real con JS falla por una
+        // carrera: el snap todavía no asentó cuando corre este script. Un
+        // umbral fijo más generoso (bien por debajo de lo que mueve un paso
+        // real de scroll, ~300px+) es más simple y no depende de timing.
+        const updateButtons = () => {
+          const max = carousel.scrollWidth - carousel.clientWidth;
+          if (prev) prev.disabled = carousel.scrollLeft <= 16;
+          if (next) next.disabled = carousel.scrollLeft >= max - 1;
+        };
+        updateButtons();
+        carousel.addEventListener("scroll", updateButtons, { passive: true });
+        window.addEventListener("resize", updateButtons);
+      });
+    </script>
   </body>
 </html>

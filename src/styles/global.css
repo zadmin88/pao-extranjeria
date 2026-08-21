@@ -96,17 +96,23 @@
     --secondary: oklch(0.955 0.014 300);
     --secondary-foreground: oklch(0.17 0.006 321);
     /* Fondo sólido de la barra de navegación (Header.astro) una vez que
-     * deja de ser transparente: el cliente pidió que sea el mismo tono
-     * claro que usan las cards (bg-lavender/15), no el lavanda sólido a
-     * pleno color. Tiene que ser un color-mix OPACO, no un bg-lavender/15
-     * con transparencia real — eso dejaba pasar contenido de atrás
-     * (bug ya visto antes con la barra). */
+     * deja de ser transparente: pasó por varios tonos (15%, luego 25% al
+     * intercambiarlo con las secciones de fondo) antes de subir a 38% —
+     * el cliente quería la barra visiblemente más marcada que cualquier
+     * sección o card de la página, así que ya no comparte tono con nadie:
+     * las secciones/cards de morado claro (bg-lavender/15 — "Qué es X",
+     * "Preguntas frecuentes", cards de Requisitos/Trámites/Testimonios,
+     * ver ServiceLayout.astro, index.astro y CtaSection.astro) se quedan
+     * en un tono único y más suave, y la barra en su propio 38%, más
+     * saturado que todos ellos. Sigue siendo un color-mix OPACO, no un
+     * bg-lavender/NN con transparencia real — eso dejaba pasar contenido
+     * de atrás (bug ya visto antes con la barra). */
     /* "in oklab", no "in oklch": mezclar un color con matiz (lavanda,
      * hue≈300) contra uno acromático (--paper, sin matiz definido) en
      * oklch le hace perder el rumbo al matiz interpolado — daba
      * hue≈351 (rosa) en vez de quedarse cerca de 300 (lavanda). oklab no
      * tiene ese problema porque no interpola por ángulo de matiz. */
-    --nav-solid: color-mix(in oklab, var(--lavender) 15%, var(--paper));
+    --nav-solid: color-mix(in oklab, var(--lavender) 38%, var(--paper));
     --muted: oklch(0.955 0.01 300);
     --muted-foreground: oklch(0.42 0.012 321);
     --accent: oklch(0.94 0.02 305);
@@ -184,6 +190,18 @@
   html {
     @apply font-sans scroll-smooth;
     }
+  /* scroll-smooth (arriba) es el fallback sin JS: sirve para los saltos de
+   * ancla (nav → #tramites, etc.) si Lenis no llegó a inicializar. Cuando
+   * Lenis SÍ está activo (agrega la clase "lenis" al <html>, ver
+   * src/scripts/scroll.ts) hay que forzar scroll-behavior: auto — Lenis
+   * ya hace su propio scroll suave por rAF, y con scroll-smooth nativo
+   * encima quedan dos sistemas de easing peleándose por la misma barra de
+   * scroll a la vez, lo que se nota como parpadeos/artefactos visuales en
+   * elementos position:fixed durante el scroll (p. ej. el header). Este
+   * es justo el override que recomienda la documentación de Lenis. */
+  html.lenis {
+    scroll-behavior: auto !important;
+    }
   h1, h2, h3 {
     @apply font-heading;
     font-weight: 500;
@@ -197,42 +215,23 @@
 }
 
 /*
- * Aparición al hacer scroll, solo CSS (scroll-driven animations).
- * Si el navegador no soporta animation-timeline, el contenido se ve
- * normal desde el principio: no hay fallback roto ni contenido oculto.
- * Pasó por dos versiones antes de esta: primero blur(10px)→0 (calcado de
- * day1-run.webflow.io), sacado porque "no es acorde a una página"; después
- * opacity 0→1 + traslado + escala, pero el cliente lo seguía viendo
- * "borroso" — CUALQUIER fade de opacidad se ve difuso a medio camino
- * (es literalmente texto semitransparente, se lee borroso aunque no haya
- * ningún filter:blur). La solución es no pasar nunca por un estado
- * semitransparente: esto usa clip-path (un recorte dtiene bordes
- * nítidos, no hay mezcla de píxeles) combinado con traslado — el texto
- * "sube" ya totalmente opaco, tapado por el recorte, nunca se ve
- * desvanecido. Rango largo (cover 45%) para que se note en más tramo del
- * scroll, no que termine de golpe. Se aplica también a cada pregunta de
- * la FAQ por separado (no solo a nivel de sección) para que ir bajando
- * siga revelando cosas.
+ * Aparición al hacer scroll: antes era 100% CSS (animation-timeline:
+ * view()), atada a la posición de scroll en vez de a un tiempo fijo — con
+ * scroll lento el fade quedaba a medio camino un buen rato y se leía
+ * "borroso" (motivo por el que se probaron y descartaron blur, clip-path y
+ * combinaciones de opacidad varias veces, ver historial en git). El
+ * cliente pidió replicar el scroll animado de un sitio de referencia
+ * (Squarespace Foundations, que usa Lenis + GSAP ScrollTrigger) — eso
+ * significó sumar JavaScript real al sitio por primera vez, rompiendo la
+ * regla de "cero JS" a propósito (ver nota en CLAUDE.md). Ahora el reveal
+ * vive en src/scripts/scroll.ts: un tween de GSAP de duración FIJA (0.6s,
+ * ease power2.out) que se dispara una sola vez al entrar en pantalla, ya
+ * no scrubbing con el scroll — así se ve nítido sin importar la velocidad
+ * de scroll. `.reveal` ya no lleva estilos propios acá: sin JS (bloqueado,
+ * error, etc.) el elemento simplemente se ve en su estado final normal,
+ * nunca oculto — GSAP es quien aplica el estado inicial (opacity:0,
+ * y:40px) por script, no esta hoja de estilos.
  */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .reveal {
-      animation: reveal-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 45%;
-    }
-    @keyframes reveal-in {
-      from {
-        clip-path: inset(0 0 100% 0);
-        translate: 0 3rem;
-      }
-      to {
-        clip-path: inset(0 0 0% 0);
-        translate: 0 0;
-      }
-    }
-  }
-}
 
 /*
  * Cards del carrusel de "Trámites" y "Testimonios": una respiración sutil
@@ -329,7 +328,11 @@ body:has(header details[open]) .whatsapp-float {
 /* Anillo de pulso detrás del botón flotante de WhatsApp: un ::before que
  * se expande y se desvanece en bucle, para llamar la atención sin
  * necesitar JavaScript. z-index negativo lo mantiene detrás del ícono,
- * dentro del propio stacking context del botón (que ya es `fixed`). */
+ * dentro del propio stacking context del botón (que ya es `fixed`).
+ * background-color en var(--wa) (verde de WhatsApp) — el botón en sí
+ * volvió al verde de marca de WhatsApp, así que el pulso debe ser del
+ * mismo verde, no quedar en el eggplant que tenía de cuando el botón
+ * pasó brevemente a lavanda. */
 @media (prefers-reduced-motion: no-preference) {
   .whatsapp-float::before {
     content: "";
@@ -337,7 +340,7 @@ body:has(header details[open]) .whatsapp-float {
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background-color: var(--primary);
+    background-color: var(--wa);
     animation: whatsapp-float-pulse 2.4s ease-out infinite;
   }
   @keyframes whatsapp-float-pulse {
@@ -369,45 +372,6 @@ body:has(header details[open]) .whatsapp-float {
       translate: 0 0;
       scale: 1;
     }
-  }
-}
-
-/* Tipografía de las páginas de servicio (contenido largo) */
-@layer components {
-  .service-body h2 {
-    @apply font-heading text-primary mt-14 mb-4 text-2xl leading-tight font-medium tracking-tight first:mt-0 sm:text-3xl;
-  }
-  .service-body h3 {
-    @apply font-heading text-foreground mt-9 mb-2 text-xl font-medium;
-  }
-  .service-body p {
-    @apply text-foreground/85 mb-4 leading-relaxed;
-  }
-  .service-body ul {
-    @apply mb-5 flex flex-col gap-2.5;
-  }
-  .service-body ul li {
-    @apply text-foreground/85 relative pl-7 leading-relaxed;
-  }
-  .service-body ul li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.3rem;
-    width: 1.05rem;
-    height: 1.05rem;
-    border-radius: 9999px;
-    background-color: color-mix(in oklch, var(--lavender) 40%, transparent);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23391a3f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-    background-size: 60%;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  .service-body .aviso {
-    @apply border-lavender-deep bg-accent text-accent-foreground my-6 rounded-lg border-l-4 p-4 text-sm;
-  }
-  .service-body .aviso p {
-    @apply text-accent-foreground m-0;
   }
 }
 

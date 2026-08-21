@@ -8,10 +8,13 @@ interface Props {
   size?: "lg" | "md";
   variant?: "pill" | "minimal";
   /** "wa": píldora verde de WhatsApp (acción principal, uso por defecto).
-   * "primary": píldora en el eggplant de marca, sin ícono de WhatsApp —
-   * para el botón "Contacto" de la barra, que es navegación, no la CTA
-   * principal. "lavender": píldora en el morado claro de marca — para el
-   * botón "Contacto" del menú móvil, a pedido del cliente. */
+   * "primary": píldora en el eggplant de marca, con hover a lavanda sólida
+   * (bg-lavender/text-primary) — mismo comportamiento en todos los botones
+   * de este tono, sin overrides puntuales por instancia (antes el hover a
+   * lavanda vivía solo en el "Contacto" de la barra, vía clases !important
+   * ad-hoc; ahora es el comportamiento por defecto del tono). "lavender":
+   * píldora en el morado claro de marca — para el botón "Contacto" del
+   * menú móvil, a pedido del cliente. */
   tone?: "wa" | "primary" | "lavender";
   /** Oculta el ícono de WhatsApp (solo aplica al variant "pill"). */
   icon?: boolean;
@@ -54,7 +57,7 @@ const {
       class={cn(
         "inline-flex items-center justify-center gap-2 rounded-full font-heading font-semibold transition-colors active:translate-y-px",
         tone === "primary" &&
-          "bg-primary text-primary-foreground hover:bg-primary/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+          "bg-primary text-primary-foreground hover:bg-lavender hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
         tone === "lavender" &&
           "bg-lavender text-primary hover:bg-lavender/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
         tone === "wa" &&

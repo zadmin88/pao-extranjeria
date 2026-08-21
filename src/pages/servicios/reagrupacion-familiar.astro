@@ -1,6 +1,7 @@
 ﻿---
 import ServiceLayout from "@/layouts/ServiceLayout.astro";
 import { SERVICES } from "@/config";
+import heroImage from "@/assets/servicios/reagrupacion-familiar.jpg";
 
 const service = SERVICES.find((s) => s.slug === "reagrupacion-familiar")!;
 
@@ -22,6 +23,63 @@ const faqs = [
     a: "Los familiares reagrupados en edad laboral quedan habilitados para trabajar sin trámites adicionales desde la concesión de su autorización. Es una de las mejoras del reglamento vigente.",
   },
 ];
+
+const steps = [
+  {
+    title: "Cálculo de ingresos",
+    text: "Calculo contigo los ingresos exigidos para tu composición familiar exacta.",
+  },
+  {
+    title: "Calendario",
+    text: "Gestiono el calendario completo: informe de vivienda, solicitud, visado y TIE.",
+  },
+  {
+    title: "Documentación",
+    text: "Preparo la documentación de España y la de tu país (actas, apostillas, traducciones).",
+  },
+  {
+    title: "Seguimiento",
+    text: "Sigo el expediente y respondo requerimientos hasta que tu familia está aquí.",
+  },
+];
+
+const options = [
+  {
+    q: "Cónyuge o pareja",
+    a: "Registrada o no registrada, con relación estable acreditada.",
+  },
+  {
+    q: "Hijos menores de edad",
+    a: "Tuyos o de tu pareja, incluidos los adoptados.",
+  },
+  {
+    q: "Hijos mayores con discapacidad",
+    a: "Que dependan económicamente de ti.",
+  },
+  {
+    q: "Ascendientes",
+    a: "Padres o suegros a cargo, cuando tienes residencia de larga duración y existen razones que justifiquen su venida.",
+  },
+];
+
+const requisitos = [
+  {
+    title: "Un año de residencia",
+    text: "Haber residido legalmente en España al menos 1 año y tener autorización para al menos otro año más.",
+  },
+  {
+    title: "Ingresos suficientes",
+    text: "Según el IPREM, en función del tamaño de la familia resultante.",
+  },
+  {
+    title: "Vivienda adecuada",
+    text: "Informe emitido por tu comunidad autónoma o ayuntamiento.",
+  },
+  {
+    title: "Asistencia sanitaria",
+    text: "Cubierta por la seguridad social o un seguro privado.",
+  },
+];
 ---
 
 <ServiceLayout
@@ -29,56 +87,16 @@ const faqs = [
   seoTitle="Reagrupación familiar en España: requisitos e ingresos 2026"
   seoDescription="Trae legalmente a tu cónyuge, hijos o padres a España: requisitos de tiempo de residencia, ingresos (IPREM), informe de vivienda y todo el expediente de reagrupación familiar. Asesoría online por WhatsApp."
   heroIntro="Vivir con tu familia no debería ser un laberinto. La reagrupación familiar tiene requisitos claros — tiempo de residencia, ingresos y vivienda — y cuando el expediente va bien armado, funciona. Te ayudo a conseguirlo."
+  heroImage={heroImage}
+  heroImageAlt="Padre e hija esperando la llegada de un familiar en el aeropuerto"
+  introTitle="Qué es la reagrupación familiar"
+  introText="Es la autorización que permite a un residente legal en España traer a sus familiares directos para vivir juntos. La tramitas tú como reagrupante desde España y, una vez aprobada, tu familiar solicita su visado en el consulado y viaja con su residencia aprobada."
   faqs={faqs}
+  steps={steps}
+  options={options}
+  optionsTitle="A quién puedes reagrupar"
+  requisitos={requisitos}
+  avisoText="El informe de vivienda y el cálculo de ingresos son los dos puntos donde más expedientes se caen. Antes de pedir cita para nada, escríbeme: revisamos si tus números y tu vivienda cumplen, y si no, cómo llegar a cumplirlos."
 >
-  <span slot="h1">Reagrupación familiar: trae a los tuyos a España</span>
-
-  <h2>Qué es la reagrupación familiar</h2>
-  <p>
-    Es la autorización que permite a un residente legal en España traer a sus
-    familiares directos para vivir juntos. La tramitas tú como reagrupante desde
-    España y, una vez aprobada, tu familiar solicita su visado en el consulado y
-    viaja con su residencia aprobada.
-  </p>
-
-  <h2>A quién puedes reagrupar</h2>
-  <ul>
-    <li><strong>Cónyuge o pareja</strong> (registrada o no registrada con relación estable acreditada).</li>
-    <li><strong>Hijos menores de 18 años,</strong> tuyos o de tu pareja, incluidos los adoptados.</li>
-    <li><strong>Hijos mayores con discapacidad</strong> que dependan de ti.</li>
-    <li><strong>Ascendientes</strong> (padres o suegros) a cargo, cuando tienes residencia de larga duración y existen razones que justifiquen su venida.</li>
-  </ul>
-
-  <h2>Requisitos del reagrupante</h2>
-  <ul>
-    <li>Haber residido legalmente en España al menos 1 año y tener autorización para al menos otro año más.</li>
-    <li>Ingresos suficientes según el IPREM, en función del tamaño de la familia resultante.</li>
-    <li>Informe de vivienda adecuada emitido por tu comunidad autónoma o ayuntamiento.</li>
-    <li>Asistencia sanitaria cubierta (seguridad social o seguro).</li>
-  </ul>
-
-  <div class="aviso">
-    <p>
-      El informe de vivienda y el cálculo de ingresos son los dos puntos donde
-      más expedientes se caen. Antes de pedir cita para nada, escríbeme:
-      revisamos si tus números y tu vivienda cumplen, y si no, cómo llegar a
-      cumplirlos.
-    </p>
-  </div>
-
-  <h2>Las etapas del trámite</h2>
-  <ul>
-    <li>Solicitud del informe de vivienda adecuada (el paso que más tarda: conviene empezar por aquí).</li>
-    <li>Presentación de la solicitud de reagrupación en la oficina de extranjería.</li>
-    <li>Con la concesión, tu familiar pide el visado en el consulado en un plazo de dos meses.</li>
-    <li>Entrada en España y solicitud de la TIE con huellas.</li>
-  </ul>
-
-  <h2>Cómo te ayudo</h2>
-  <ul>
-    <li>Calculo contigo los ingresos exigidos para tu composición familiar exacta.</li>
-    <li>Gestiono el calendario completo: informe de vivienda, solicitud, visado y TIE.</li>
-    <li>Preparo la documentación de España y la de tu país (actas, apostillas, traducciones).</li>
-    <li>Sigo el expediente y respondo requerimientos hasta que tu familia está aquí.</li>
-  </ul>
+  <Fragment slot="h1">Reagrupación familiar: <span class="text-lavender-deep">trae a los tuyos</span> a España</Fragment>
 </ServiceLayout>

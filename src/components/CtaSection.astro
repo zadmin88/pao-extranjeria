@@ -8,7 +8,7 @@ interface Props {
 const { message } = Astro.props;
 ---
 
-<section aria-labelledby="cta-titulo" class="bg-lavender/10 py-24 sm:py-36">
+<section aria-labelledby="cta-titulo" class="bg-lavender/15 py-24 sm:py-36">
   <div class="mx-auto max-w-[100rem] px-6 sm:px-10 lg:px-16">
     <div class="reveal mx-auto max-w-2xl text-center">
       <h2
@@ -18,16 +18,9 @@ const { message } = Astro.props;
       >
         ¿No sabes por dónde <span class="text-lavender-deep">empezar</span>?
       </h2>
-      <p class="mt-4 font-heading text-xl text-muted-foreground sm:text-2xl">Escríbeme y lo resolvemos juntos.</p>
+      <p class="mt-5 font-heading text-xl text-muted-foreground sm:mt-7 sm:text-2xl">Escríbeme y lo resolvemos juntos.</p>
       <div class="mt-8 flex justify-center">
-        <WhatsAppButton
-          size="lg"
-          label="Cuéntame tu caso"
-          tone="primary"
-          icon={false}
-          message={message}
-          class="hover:!bg-lavender hover:!text-primary"
-        />
+        <WhatsAppButton size="lg" label="Cuéntame tu caso" tone="primary" icon={false} message={message} />
       </div>
     </div>
   </div>

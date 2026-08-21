@@ -1,6 +1,6 @@
 ---
 import logoSource from "@/assets/PO_Logo_5.svg?raw";
-import { SITE, SERVICES, servicePath } from "@/config";
+import { SITE } from "@/config";
 
 const year = new Date().getFullYear();
 
@@ -14,37 +14,33 @@ const year = new Date().getFullYear();
 const logo = logoSource.replace(/#391a3f/g, "#fff");
 ---
 
-<!-- Esquinas más chicas que el resto del sitio (rounded-t-2xl, no
-     rounded-t-[2.5rem]/[3rem] como el hero): con radio grande, la curva
-     dejaba ver un triángulo de la sección de arriba (CTA, bg-lavender/10)
-     en cada esquina — se notaba como una "franja" de otro color pegada al
-     footer. Con radio chico el recorte es casi imperceptible. -->
+<!-- Esquinas superiores redondeadas (rounded-t-2xl/3xl), sin el -mt-
+     negativo que llevaban antes: ese hack pulía el footer hacia arriba
+     para que el recorte de la esquina mostrara el color de la sección de
+     arriba en vez del blanco de <body> — necesario cuando esa sección
+     ("Otros trámites") era lavanda y no blanca. Ahora que "Otros trámites"
+     es blanca (a pedido del cliente, ver ServiceLayout.astro), el blanco
+     que asoma por el recorte de la esquina ya coincide con el blanco de
+     la sección de arriba: no hace falta compensar nada. Si "Otros
+     trámites" vuelve a llevar un fondo de color, revisar si el notch
+     vuelve a notarse. -->
 <footer class="rounded-t-2xl border-t border-paper/12 bg-primary sm:rounded-t-3xl">
-  <div class="mx-auto max-w-[100rem] px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
-    <!-- Mobile: logo arriba, links de navegación directo debajo, sin
-         subtítulo de grupo (ni el listado de los 5 trámites, que vive en
-         la sección "Trámites" de la home). -->
+  <div class="mx-auto max-w-[100rem] px-6 pt-10 pb-8 sm:px-10 sm:pt-14 lg:px-16">
+    <!-- Mobile: logo arriba, links de navegación directo debajo. El
+         listado de los 5 trámites ya no se repite acá — vive en el
+         submenú de "Trámites" del header y en la sección "Trámites" de
+         la home. -->
     <div class="sm:hidden">
-      <a href="/" aria-label={`${SITE.name} — inicio`} class="mb-10 inline-block shrink-0 [&>svg]:h-20 [&>svg]:w-auto" set:html={logo} />
+      <a href="/" aria-label={`${SITE.name} — inicio`} class="mb-6 inline-block shrink-0 [&>svg]:h-20 [&>svg]:w-auto" set:html={logo} />
       <nav aria-label="Navegación" class="flex flex-col gap-3">
         <a href="/#tramites" class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">Trámites</a>
         <a href="/#paola" class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">Sobre Paola</a>
         <a href="/#preguntas" class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">Preguntas frecuentes</a>
       </nav>
-      <p class="mt-8 mb-3 font-heading text-xs tracking-wide text-paper/40 uppercase">Trámites</p>
-      <nav aria-label="Trámites" class="flex flex-col gap-3">
-        {
-          SERVICES.map((s) => (
-            <a href={servicePath(s.slug)} class="font-heading text-base text-paper/85 transition-colors hover:text-lavender">
-              {s.title}
-            </a>
-          ))
-        }
-      </nav>
     </div>
 
-    <!-- Desktop: logo + nav principal arriba; lista de trámites (enlaces
-         internos para SEO) debajo. -->
+    <!-- Desktop: logo + nav principal, sin el listado de trámites (ver
+         nota de arriba). -->
     <div class="hidden sm:block">
       <div class="flex items-center justify-between gap-6 sm:gap-8">
         <a href="/" aria-label={`${SITE.name} — inicio`} class="shrink-0 [&>svg]:h-20" set:html={logo} />
@@ -54,20 +50,19 @@ const logo = logoSource.replace(/#391a3f/g, "#fff");
           <a href="/#preguntas" class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">Preguntas frecuentes</a>
         </nav>
       </div>
-      <nav aria-label="Trámites" class="mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t border-paper/12 pt-8">
-        {
-          SERVICES.map((s) => (
-            <a href={servicePath(s.slug)} class="font-heading text-sm text-paper/70 transition-colors hover:text-lavender">
-              {s.title}
-            </a>
-          ))
-        }
-      </nav>
     </div>
   </div>
 
-  <div class="border-t border-paper/12">
-    <div class="mx-auto max-w-[100rem] px-6 py-8 text-left text-xs text-paper/35 sm:px-10 lg:px-16">
+  <!-- Línea justo debajo del logo/menú, seguida directamente de la fecha
+       (a pedido del cliente). Antes el border-t vivía en el div de afuera
+       (a todo el ancho del viewport, sin aire a los lados); el cliente lo
+       vio "completa" de punta a punta y pidió que respire igual que el
+       resto del contenido. Ahora el padding (px-6/10/16) va en el
+       envoltorio exterior y el border-t vive en el interior
+       (mx-auto max-w-[100rem]), así que la línea queda inset al mismo
+       margen que el logo/nav de arriba, no pegada al borde del navegador. -->
+  <div class="px-6 sm:px-10 lg:px-16">
+    <div class="mx-auto max-w-[100rem] border-t border-paper/12 py-6 text-left text-xs text-paper/35">
       <p>© {year} {SITE.name}.</p>
     </div>
   </div>
