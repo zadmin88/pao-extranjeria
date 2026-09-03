@@ -8,9 +8,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // ⚠️ [PLACEHOLDER] Cambia esta URL por el dominio definitivo.
-  // Debe coincidir con SITE.url en src/config.ts (sitemap y canonicals dependen de esto).
-  site: 'https://extranjeria-con-paola.vercel.app',
+  // Dominio definitivo (con www, el primario del hosting). Debe coincidir con
+  // SITE.url en src/config.ts — sitemap y canonicals dependen de esto.
+  site: 'https://www.tramitesconpaola.es',
   trailingSlash: 'always',
 
   integrations: [

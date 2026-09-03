@@ -11,13 +11,25 @@ interface Props {
   description: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
+  /** Imagen para compartir en redes/WhatsApp (og:image). Ruta desde la raíz
+   * del sitio. Lo ideal es una imagen dedicada de 1200×630; por defecto usa
+   * la foto de Paola del hero. */
+  image?: string;
   /** La barra de navegación arranca transparente, integrada a la foto del
    * hero, y se vuelve sólida al hacer scroll. Solo la usa la home. */
   transparentHeader?: boolean;
 }
 
-const { title, description, jsonLd, noindex = false, transparentHeader = false } = Astro.props;
+const {
+  title,
+  description,
+  jsonLd,
+  noindex = false,
+  image = "/foto_paola_completa_desk.png",
+  transparentHeader = false,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const ogImage = new URL(image, SITE.url).href;
 ---
 
 <!doctype html>
@@ -45,9 +57,12 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="es_ES" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={`${SITE.name} — ${SITE.brand}`} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     {jsonLd && <JsonLd data={jsonLd} />}
   </head>

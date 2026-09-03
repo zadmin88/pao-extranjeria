@@ -18,22 +18,24 @@ export const SITE = {
   brand: "Extranjería con Paola",
 
   /**
-   * [PLACEHOLDER] Número de WhatsApp en formato internacional,
-   * SIN "+", SIN espacios. Ej: España 6XX XX XX XX → "346XXXXXXXX"
+   * Número de WhatsApp en formato internacional, SIN "+", SIN espacios.
+   * Ej: España 6XX XX XX XX → "346XXXXXXXX"
    */
-  whatsappNumber: "34600000000",
+  whatsappNumber: "34612281360",
 
-  /** [PLACEHOLDER] Cómo se muestra el teléfono en pantalla */
-  phoneDisplay: "+34 600 00 00 00",
+  /** Cómo se muestra el teléfono en pantalla */
+  phoneDisplay: "+34 612 28 13 60",
 
-  /** [PLACEHOLDER] Email de contacto (aparece en el footer y legales) */
-  email: "hola@ejemplo.com",
+  /** Email de contacto (aparece en el footer y legales) */
+  email: "paolaocampo123@gmail.com",
 
   /**
-   * [PLACEHOLDER] URL definitiva del sitio, sin barra final.
-   * Debe coincidir con `site` en astro.config.mjs.
+   * URL definitiva del sitio, sin barra final. Debe coincidir con `site` en
+   * astro.config.mjs. Es el dominio con "www" (el primario en el hosting):
+   * el que sirve la web y al que apunta el canonical. Asegúrate de que el
+   * hosting redirige tramitesconpaola.es → www.tramitesconpaola.es (301).
    */
-  url: "https://extranjeria-con-paola.vercel.app",
+  url: "https://www.tramitesconpaola.es",
 
   /** Descripción corta reutilizada en SEO y schema.org */
   tagline:
